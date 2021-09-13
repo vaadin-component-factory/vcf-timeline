@@ -4,6 +4,9 @@ import elemental.json.Json;
 import elemental.json.JsonObject;
 import java.util.Optional;
 
+/**
+ * Timeline options for clustering.
+ */
 public class ClusterOptions {
 
   /* If true, overlapped items will be grouped to clusters, zooming will change that grouping.*/
@@ -21,15 +24,19 @@ public class ClusterOptions {
     
   public String toJSON() {
     JsonObject js = Json.createObject();
-    if(!cluster) {
-      js.put("cluster", cluster);
+    if(cluster && (titleTemplate != null || showStipes || maxItems != 1)) {
+      js.put("cluster", optionsToJSON());
     } else {
-      JsonObject optionsJs = Json.createObject();
-      optionsJs.put("showStipes" , showStipes);
-      Optional.ofNullable(titleTemplate).ifPresent(v -> js.put("titleTemplate", v)); 
-      optionsJs.put("clusterCriteria", "clusterCriteria");
-      js.put("cluster", optionsJs);
+      js.put("cluster", cluster);
     }
     return js.toJson();
+  }
+  
+  public JsonObject optionsToJSON() {
+    JsonObject optionsJs = Json.createObject();
+    optionsJs.put("showStipes" , showStipes);
+    Optional.ofNullable(titleTemplate).ifPresent(v -> optionsJs.put("titleTemplate", v)); 
+    optionsJs.put("clusterCriteria", "clusterCriteria");
+    return optionsJs;
   }
 }

@@ -48,7 +48,7 @@ public class Timeline extends Div {
   protected void onAttach(AttachEvent attachEvent) {
     super.onAttach(attachEvent);
     initTimeline();
-    initClusterOptions();
+    addClusterOptions();
   }
 
   private void initTimeline() {
@@ -59,7 +59,7 @@ public class Timeline extends Div {
     return this.items != null ? this.items.stream().map(item -> item.toJSON()).collect(Collectors.joining(",")) : "";
   }
   
-  private void initClusterOptions() {
+  private void addClusterOptions() {
     this.getElement().executeJs("vcftimeline.setClusterOptions($0, $1)", this, getClusterOptions().toJSON());    
   }
   
@@ -138,6 +138,10 @@ public class Timeline extends Div {
     getTimelineOptions().start = start;
   }
   
+  public void setStack(boolean stack) {
+    getTimelineOptions().stack = stack;
+  }
+  
   protected ClusterOptions getClusterOptions() {
     return this.clusterOptions;
   }
@@ -158,9 +162,11 @@ public class Timeline extends Div {
    */
   public void setClusterTitleTemplate(String titleTemplate) {
     getClusterOptions().titleTemplate = titleTemplate;
+    setCluster(true);
   }
   
   public void setClusterMaxItems(Integer maxItems) {
     getClusterOptions().maxItems = maxItems;
+    setCluster(true);
   }
 }
