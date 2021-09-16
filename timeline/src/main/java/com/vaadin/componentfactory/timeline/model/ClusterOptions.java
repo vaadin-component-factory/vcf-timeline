@@ -24,7 +24,7 @@ public class ClusterOptions {
     
   public String toJSON() {
     JsonObject js = Json.createObject();
-    if(cluster && (titleTemplate != null || showStipes || maxItems != 1)) {
+    if(cluster || (titleTemplate != null || showStipes || maxItems != 1)) {
       js.put("cluster", optionsToJSON());
     } else {
       js.put("cluster", cluster);

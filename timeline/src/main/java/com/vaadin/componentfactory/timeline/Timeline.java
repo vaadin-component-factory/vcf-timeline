@@ -169,12 +169,10 @@ public class Timeline extends Div {
    */
   public void setClusterTitleTemplate(String titleTemplate) {
     getClusterOptions().titleTemplate = titleTemplate;
-    setCluster(true);
   }
   
   public void setClusterMaxItems(Integer maxItems) {
     getClusterOptions().maxItems = maxItems;
-    setCluster(true);
   }
   
   protected EditableOptions getEditableOptions() {
