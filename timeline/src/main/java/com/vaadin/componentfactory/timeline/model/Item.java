@@ -1,5 +1,11 @@
 package com.vaadin.componentfactory.timeline.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import elemental.json.Json;
 import elemental.json.JsonObject;
 import java.time.LocalDateTime;
@@ -10,7 +16,7 @@ import java.util.UUID;
 public class Item {
   
   private String id = UUID.randomUUID().toString();
-  
+
   private LocalDateTime start;
   
   private LocalDateTime end;
@@ -18,6 +24,12 @@ public class Item {
   private String content;
   
   private String clusterId;
+  
+  private Boolean editable;
+  
+  private Boolean updateTime;
+  
+  private Boolean remove;
   
   public Item() {}
   
@@ -70,6 +82,30 @@ public class Item {
 
   public void setClusterId(String clusterId) {
     this.clusterId = clusterId;
+  }  
+  
+  public Boolean getEditable() {
+    return editable;
+  }
+
+  public void setEditable(Boolean editable) {
+    this.editable = editable;
+  }
+
+  public Boolean getUpdateTime() {
+    return updateTime;
+  }
+
+  public void setUpdateTime(Boolean updateTime) {
+    this.updateTime = updateTime;
+  }  
+
+  public Boolean getRemove() {
+    return remove;
+  }
+
+  public void setRemove(Boolean remove) {
+    this.remove = remove;
   }
 
   @Override
@@ -96,6 +132,17 @@ public class Item {
       Optional.ofNullable(getStart()).ifPresent(v -> js.put("start", v.toString()));
       Optional.ofNullable(getEnd()).ifPresent(v -> js.put("end", v.toString()));
       Optional.ofNullable(getClusterId()).ifPresent(v -> js.put("clusterId", v));
+      
+      Optional.ofNullable(getEditable()).ifPresent(v -> {
+        if(v && (getUpdateTime() != null || getRemove() != null)) {
+          JsonObject optionsJs = Json.createObject();
+          Optional.ofNullable(getUpdateTime()).ifPresent(u -> optionsJs.put("updateTime" , u));
+          Optional.ofNullable(getRemove()).ifPresent(r -> optionsJs.put("remove" , r));
+          js.put("editable", optionsJs);
+        } else {
+          js.put("editable", v);
+        }
+      });
       return js.toJson();
   }
 

@@ -8,10 +8,43 @@ window.vcftimeline = {
 	  var items = new vis.DataSet(JSON.parse(itemsJson));	
 		
 	  // Configuration for the Timeline
-	  var options = JSON.parse(optionsJson);
+	  var parsedOptions = JSON.parse(optionsJson);
+
+	  var defaultOptions = {
+		onMove: function (item, callback) {
+			callback(item); 
+						
+			var startDate = window.vcftimeline._convertDate(item.start);
+			var endDate = window.vcftimeline._convertDate(item.end);
+
+			container.$server.onMove(item.id, startDate, endDate);
+		  },
+		// onMoving: function(item, callback) {
+		// 	var container = document.getElementById("visualization");
+		// 	var range = container.timeline.getWindow();
+		// 	if(item.start <= range.start) {
+		// 		var diff = range.start.valueOf() - item.start.getTime();
+		// 		container.timeline.setWindow({
+		// 			start: range.start.valueOf() - diff,
+		// 			end: range.end.valueOf() - diff,
+		// 		});
+		// 	} else if(item.end >= range.end) {
+		// 		var diff = item.end.getTime() - range.end.valueOf();
+		// 		container.timeline.setWindow({
+		// 			start: range.start.valueOf() + diff,
+		// 			end: range.end.valueOf() + diff,
+		// 		});
+		// 	}
+		// 	callback(item);
+		// }
+
+	  };
+
+	  var options = {};
+	  Object.assign(options, parsedOptions, defaultOptions);
 	
 	  // Create Timeline	
-   	  var timeline = new vis.Timeline(container, items, options);
+   	  var timeline = new vis.Timeline(container, items, options);		 
    	  container.timeline = timeline;
   	},
 
@@ -39,6 +72,15 @@ window.vcftimeline = {
 		});
 		Object.assign(updatedOptions, options, jsonTransformed);
 		container.timeline.setOptions(updatedOptions);
-	},	
+	},
+	
+	_convertDate: function(date) {
+		var local = new Date(date);
+		local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+		return local.toJSON().slice(0, 19);		
+	},
+  
 }
+
+
 

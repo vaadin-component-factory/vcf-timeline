@@ -13,8 +13,10 @@ public class MainLayout extends AppLayout {
     final RouterLink readonlyEmptyExample = new RouterLink("Readonly empty timeline", ReadonlyEmptyExample.class);
     final RouterLink addEmptyItemsExample = new RouterLink("Add empty items", AddEmptyItemsExample.class);
     final RouterLink clusteringExample = new RouterLink("Merge overlapped items", ClusteringExample.class);
+    final RouterLink resizeItems = new RouterLink("Resize items", ResizeItemsExample.class);
+    final RouterLink dndItems = new RouterLink("Drag and drop items", DragAndDropItemsExample.class);
             
-    final VerticalLayout menuLayout = new VerticalLayout(readonlyEmptyExample, addEmptyItemsExample, clusteringExample);
+    final VerticalLayout menuLayout = new VerticalLayout(readonlyEmptyExample, addEmptyItemsExample, clusteringExample, resizeItems, dndItems);
     addToDrawer(menuLayout);
     addToNavbar(drawerToggle);
   }

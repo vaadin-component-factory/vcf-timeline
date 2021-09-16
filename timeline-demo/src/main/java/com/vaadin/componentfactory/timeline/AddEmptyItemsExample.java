@@ -25,7 +25,8 @@ public class AddEmptyItemsExample extends VerticalLayout {
     // empty timeline creation
     Timeline timeline = new Timeline();
     timeline.setTimelineRange(LocalDateTime.of(2021, 8, 10, 00, 00, 00), LocalDateTime.of(2021, 8, 22, 00, 00, 00));
-   
+    timeline.setHeight("200px");
+       
     // add item    
     VerticalLayout selectRangeLayout = new VerticalLayout();
     selectRangeLayout.setSpacing(false);

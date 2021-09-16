@@ -19,8 +19,7 @@ public class ReadonlyEmptyExample extends VerticalLayout {
     // setting timeline range
     timeline.setTimelineRange(LocalDateTime.of(2021, 8, 10, 00, 00, 00), LocalDateTime.of(2021, 8, 15, 00, 00, 00));
     
-    // making timeline readonly
-    timeline.setEditable(false);
+    // by default, timeline is not editable (readonly)
     
     add(timeline);
   }

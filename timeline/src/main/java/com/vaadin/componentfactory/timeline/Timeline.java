@@ -2,10 +2,15 @@ package com.vaadin.componentfactory.timeline;
 
 import com.vaadin.componentfactory.timeline.model.AxisOrientation;
 import com.vaadin.componentfactory.timeline.model.ClusterOptions;
+import com.vaadin.componentfactory.timeline.model.EditableOptions;
 import com.vaadin.componentfactory.timeline.model.Item;
 import com.vaadin.componentfactory.timeline.model.TimelineOptions;
 import com.vaadin.componentfactory.timeline.util.ClusterIdProvider;
+import com.vaadin.componentfactory.timeline.util.TimelineUtil;
 import com.vaadin.flow.component.AttachEvent;
+import com.vaadin.flow.component.ClientCallable;
+import com.vaadin.flow.component.ComponentEvent;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dependency.NpmPackage;
@@ -27,6 +32,8 @@ public class Timeline extends Div {
   private TimelineOptions timelineOptions = new TimelineOptions();
   
   private ClusterOptions clusterOptions = new ClusterOptions();
+  
+  private EditableOptions editableOptions = new EditableOptions();
   
   private ClusterIdProvider clusterIdProvider;
   
@@ -116,10 +123,6 @@ public class Timeline extends Div {
     getTimelineOptions().selectable = selectable;
   }
   
-  public void setEditable(boolean editable) {
-    getTimelineOptions().editable = editable;
-  }
-  
   public void setShowCurentTime(boolean showCurrentTime) {
     getTimelineOptions().showCurrentTime = showCurrentTime;
   }
@@ -140,6 +143,10 @@ public class Timeline extends Div {
   
   public void setStack(boolean stack) {
     getTimelineOptions().stack = stack;
+  }
+  
+  public void setMultiselect(boolean multiselect) {
+    getTimelineOptions().multiselect = multiselect;
   }
   
   protected ClusterOptions getClusterOptions() {
@@ -168,5 +175,87 @@ public class Timeline extends Div {
   public void setClusterMaxItems(Integer maxItems) {
     getClusterOptions().maxItems = maxItems;
     setCluster(true);
+  }
+  
+  protected EditableOptions getEditableOptions() {
+    return editableOptions;
+  }
+  
+  public void setEditable(boolean editable) {
+    getEditableOptions().editable = editable;
+  }
+  
+  /** 
+   * This option should be set true to allow all timeline items to be resizables or draggables.
+   * 
+   * @param updateTime
+   */
+  public void setUpdateTime(boolean updateTime) {
+    getEditableOptions().updateTime = updateTime;
+  }
+  
+  public void setOverrideItemsOptions(boolean overrideItems) {
+    getEditableOptions().overrideItems = overrideItems;
+  }
+  
+  @ClientCallable
+  public void onMove(String itemId, String itemNewStart, String itemNewEnd) {
+    LocalDateTime newStart = TimelineUtil.convertLocalDateTime(itemNewStart);
+    LocalDateTime newEnd = TimelineUtil.convertLocalDateTime(itemNewEnd);
+    fireItemMoveEvent(itemId, newStart, newEnd, true);
+  }
+  
+  /**
+   * Fires a {@link ItemMoveEvent}.
+   * 
+   * @param itemId
+   * @param newStart
+   * @param newEnd
+   * @param fromClient
+   */
+  protected void fireItemMoveEvent(String itemId, LocalDateTime newStart, LocalDateTime newEnd, boolean fromClient) {
+    fireEvent(new ItemMoveEvent(this, itemId, newStart, newEnd,fromClient));
+  }
+  
+  /**
+   * Event thrown when an item is moved (dragged or resized).
+   */
+  public static class ItemMoveEvent extends ComponentEvent<Timeline> {
+
+    private final String itemId;    
+    private final LocalDateTime newStart;    
+    private final LocalDateTime newEnd;
+
+    public ItemMoveEvent(Timeline source, String itemId, LocalDateTime newStart, LocalDateTime newEnd, boolean fromClient) {
+      super(source, fromClient);
+      this.itemId = itemId;
+      this.newStart = newStart;
+      this.newEnd = newEnd;
+    }     
+
+    public String getItemId() {
+      return itemId;
+    }
+    
+    public LocalDateTime getNewStart() {
+      return newStart;
+    }
+
+    public LocalDateTime getNewEnd() {
+      return newEnd;
+    }
+
+    public Timeline getTimeline() {
+      return (Timeline) source;
+    }
+  }
+  
+  /**
+   * Adds a  listener for {@link ItemMoveEvent} to the component.
+   *
+   * @param listener the listener to be added.
+   */
+  public void addItemMoveListener(ComponentEventListener<ItemMoveEvent> listener) {
+    addListener(ItemMoveEvent.class, listener);
   }
 }

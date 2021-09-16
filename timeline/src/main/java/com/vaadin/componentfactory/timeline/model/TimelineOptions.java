@@ -30,11 +30,6 @@ public class TimelineOptions {
    */
   public boolean zoomable = true;
   
-  /* When true, the items in the timeline can be manipulated. 
-   * Only applicable when option selectable is true.
-   */
-  public boolean editable = false;
-  
   /* If true, the items on the timeline can be selected. */
   public boolean selectable = true;
   
@@ -52,13 +47,17 @@ public class TimelineOptions {
   /* Specifies the maximum height for the Timeline. */
   public String maxHeight;
   
-  /* If true (default), items will be stacked on top of each other such that they do not overlap. */
-  public boolean stack = true;
+  /* If false items will not be stacked on top of each other such that they overlap. */
+  public boolean stack = false;
   
   /* The initial start date for the axis of the timeline. 
    * If not provided, the earliest date present in the events is taken as start date. */
   public LocalDateTime start;
-        
+  
+  /* If true, multiple items can be selected using ctrl+click, shift+click, or by holding items. 
+   * Only applicable when option selectable is true. */
+  public boolean multiselect = false;
+  
   public String toJSON() {
     JsonObject js = Json.createObject();
     Optional.ofNullable(min).ifPresent(v -> js.put("min", v.toString()));     
@@ -71,7 +70,6 @@ public class TimelineOptions {
     js.put("zoomMax", zoomMax);    
     js.put("moveable", moveable);
     js.put("zoomable", zoomable);
-    js.put("editable", editable);
     js.put("selectable", selectable);
     js.put("showCurrentTime", showCurrentTime);
     js.put("width", width);    
@@ -80,6 +78,7 @@ public class TimelineOptions {
     Optional.ofNullable(maxHeight).ifPresent(v -> js.put("maxHeight", v));   
     js.put("stack", stack);
     Optional.ofNullable(start).ifPresent(v -> js.put("start", v.toString())); 
+    js.put("multiselect", multiselect);
     
     return js.toJson();
   }  
