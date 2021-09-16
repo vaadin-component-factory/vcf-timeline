@@ -20,7 +20,6 @@ window.vcftimeline = {
 			container.$server.onMove(item.id, startDate, endDate);
 		  },
 		// onMoving: function(item, callback) {
-		// 	var container = document.getElementById("visualization");
 		// 	var range = container.timeline.getWindow();
 		// 	if(item.start <= range.start) {
 		// 		var diff = range.start.valueOf() - item.start.getTime();

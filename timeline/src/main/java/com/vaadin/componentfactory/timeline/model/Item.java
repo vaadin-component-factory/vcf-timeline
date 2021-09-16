@@ -1,11 +1,5 @@
 package com.vaadin.componentfactory.timeline.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import elemental.json.Json;
 import elemental.json.JsonObject;
 import java.time.LocalDateTime;
@@ -107,7 +101,7 @@ public class Item {
   public void setRemove(Boolean remove) {
     this.remove = remove;
   }
-
+  
   @Override
   public int hashCode() {
     return Objects.hash(id);
