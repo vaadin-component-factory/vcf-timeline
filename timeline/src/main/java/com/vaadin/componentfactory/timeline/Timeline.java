@@ -38,7 +38,7 @@ public class Timeline extends Div {
   private ClusterIdProvider clusterIdProvider;
   
   public Timeline() {
-    setId("visualization");
+    setId("visualization" + this.hashCode());
     setWidthFull();
   }
 
