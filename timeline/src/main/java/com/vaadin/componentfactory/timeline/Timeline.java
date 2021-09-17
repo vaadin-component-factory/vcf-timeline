@@ -149,6 +149,10 @@ public class Timeline extends Div {
     getTimelineOptions().multiselect = multiselect;
   }
   
+  public void setShowTooltips(boolean showTooltips) {
+    getTimelineOptions().showTooltips = showTooltips;
+  }
+  
   protected ClusterOptions getClusterOptions() {
     return this.clusterOptions;
   }

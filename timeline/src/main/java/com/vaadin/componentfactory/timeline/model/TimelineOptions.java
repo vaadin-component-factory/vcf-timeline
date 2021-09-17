@@ -58,6 +58,10 @@ public class TimelineOptions {
    * Only applicable when option selectable is true. */
   public boolean multiselect = false;
   
+  /* If true, items with titles will display a tooltip. 
+   * If false, item tooltips are prevented from showing. */
+  public boolean showTooltips = true;
+  
   public String toJSON() {
     JsonObject js = Json.createObject();
     Optional.ofNullable(min).ifPresent(v -> js.put("min", v.toString()));     
@@ -79,6 +83,7 @@ public class TimelineOptions {
     js.put("stack", stack);
     Optional.ofNullable(start).ifPresent(v -> js.put("start", v.toString())); 
     js.put("multiselect", multiselect);
+    js.put("showTooltips", showTooltips);
     
     return js.toJson();
   }  

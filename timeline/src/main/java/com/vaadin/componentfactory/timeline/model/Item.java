@@ -25,6 +25,8 @@ public class Item {
   
   private Boolean remove;
   
+  private String title;
+  
   public Item() {}
   
   public Item(LocalDateTime start, LocalDateTime end) {
@@ -102,6 +104,14 @@ public class Item {
     this.remove = remove;
   }
   
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(id);
@@ -137,6 +147,8 @@ public class Item {
           js.put("editable", v);
         }
       });
+      
+      Optional.ofNullable(getTitle()).ifPresent(v -> js.put("title", v));
       return js.toJson();
   }
 

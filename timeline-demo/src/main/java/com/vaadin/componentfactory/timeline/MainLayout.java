@@ -15,8 +15,9 @@ public class MainLayout extends AppLayout {
     final RouterLink clusteringExample = new RouterLink("Merge overlapped items", ClusteringExample.class);
     final RouterLink resizeItems = new RouterLink("Resize items", ResizeItemsExample.class);
     final RouterLink dndItems = new RouterLink("Drag and drop items", DragAndDropItemsExample.class);
+    final RouterLink tooltipsExample = new RouterLink("Items with tooltips", ItemsWithTooltipsExample.class);
             
-    final VerticalLayout menuLayout = new VerticalLayout(readonlyEmptyExample, addEmptyItemsExample, clusteringExample, resizeItems, dndItems);
+    final VerticalLayout menuLayout = new VerticalLayout(readonlyEmptyExample, addEmptyItemsExample, clusteringExample, resizeItems, dndItems, tooltipsExample);
     addToDrawer(menuLayout);
     addToNavbar(drawerToggle);
   }
