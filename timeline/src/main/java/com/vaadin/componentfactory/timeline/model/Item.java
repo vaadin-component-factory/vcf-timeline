@@ -27,6 +27,8 @@ public class Item {
   
   private String title;
   
+  private String className;
+  
   public Item() {}
   
   public Item(LocalDateTime start, LocalDateTime end) {
@@ -111,6 +113,14 @@ public class Item {
   public void setTitle(String title) {
     this.title = title;
   }
+  
+  public String getClassName() {
+    return className;
+  }
+
+  public void setClassName(String className) {
+    this.className = className;
+  }
 
   @Override
   public int hashCode() {
@@ -149,6 +159,7 @@ public class Item {
       });
       
       Optional.ofNullable(getTitle()).ifPresent(v -> js.put("title", v));
+      Optional.ofNullable(getClassName()).ifPresent(v -> js.put("className", v));
       return js.toJson();
   }
 

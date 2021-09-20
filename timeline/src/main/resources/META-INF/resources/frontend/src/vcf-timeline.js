@@ -11,7 +11,7 @@ window.vcftimeline = {
 	  var parsedOptions = JSON.parse(optionsJson);
 
 	  var defaultOptions = {
-		onMove: function (item, callback) {
+		onMove: function(item, callback) {
 			callback(item); 
 						
 			var startDate = window.vcftimeline._convertDate(item.start);
@@ -19,6 +19,7 @@ window.vcftimeline = {
 
 			container.$server.onMove(item.id, startDate, endDate);
 		  },
+		
 		// onMoving: function(item, callback) {
 		// 	var range = container.timeline.getWindow();
 		// 	if(item.start <= range.start) {
@@ -64,6 +65,10 @@ window.vcftimeline = {
 		itemData.start = parsedItem.start;
 		itemData.end = parsedItem.end;
 		container.timeline.itemsData.update(itemData);
+	},
+	
+	removeItem: function(container, itemId) {
+		container.timeline.itemsData.remove(itemId);
 	},
 
 	setClusterOptions: function(container, clusterOptionsJson) {

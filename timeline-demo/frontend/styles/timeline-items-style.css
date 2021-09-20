@@ -1,0 +1,37 @@
+.vis-item.orange {
+   background-color: gold;
+   border-color: orange;
+   color: #EC480E;
+ }
+ 
+.vis-item.vis-selected.orange {
+  background-color: orange;
+  border-color: #EC480E;  
+}
+
+.vis-item.green {
+  background-color: #9FE238;
+  border-color: green;
+}
+
+.vis-item.vis-selected.green {
+  background-color: #BAF461;
+  border-color: green;  
+  color: green;
+  border-width: 3px;
+}
+
+.vis-item.red {
+  background-color: red;
+  border-color: darkred;
+  color: white;
+  font-family: monospace;
+  box-shadow: 0 0 10px gray;
+}
+
+.vis-item.vis-box.red {
+  border-radius: 0;
+  border-width: 2px;
+  font-size: 24pt;
+  font-weight: bold;
+}
