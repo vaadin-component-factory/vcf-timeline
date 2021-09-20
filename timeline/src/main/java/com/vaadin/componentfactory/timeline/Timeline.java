@@ -203,8 +203,8 @@ public class Timeline extends Div {
   @ClientCallable
   public void onMove(String itemId, String itemNewStart, String itemNewEnd) {
     LocalDateTime newStart = TimelineUtil.convertLocalDateTime(itemNewStart);
-    LocalDateTime newEnd = TimelineUtil.convertLocalDateTime(itemNewEnd);
-    fireItemMoveEvent(itemId, newStart, newEnd, true);
+    LocalDateTime newEnd = TimelineUtil.convertLocalDateTime(itemNewEnd);        
+    fireItemMoveEvent(itemId, newStart, newEnd, true);    
   }
   
   /**
@@ -216,7 +216,26 @@ public class Timeline extends Div {
    * @param fromClient
    */
   protected void fireItemMoveEvent(String itemId, LocalDateTime newStart, LocalDateTime newEnd, boolean fromClient) {
-    fireEvent(new ItemMoveEvent(this, itemId, newStart, newEnd,fromClient));
+    ItemMoveEvent event = new ItemMoveEvent(this, itemId, newStart, newEnd,fromClient);
+    fireEvent(event);
+    if(event.isCancelled()) {
+      // if update is cancelled revert item resizing
+      Item item = items.stream()
+          .filter(i -> itemId.equals(i.getId()))
+          .findFirst().orElse(null);
+      if(item != null) {        
+        this.getElement().executeJs("vcftimeline.revertMove($0, $1, $2)", this, itemId, item.toJSON());
+      }     
+    } else {
+      //update item in list
+      items.stream()
+      .filter(i -> itemId.equals(i.getId()))
+      .findFirst()
+      .ifPresent(item -> {
+        item.setStart(newStart); 
+        item.setEnd(newEnd);
+      });
+    }
   }
   
   /**
@@ -227,6 +246,7 @@ public class Timeline extends Div {
     private final String itemId;    
     private final LocalDateTime newStart;    
     private final LocalDateTime newEnd;
+    private boolean cancelled = false;
 
     public ItemMoveEvent(Timeline source, String itemId, LocalDateTime newStart, LocalDateTime newEnd, boolean fromClient) {
       super(source, fromClient);
@@ -245,6 +265,14 @@ public class Timeline extends Div {
 
     public LocalDateTime getNewEnd() {
       return newEnd;
+    }
+    
+    public boolean isCancelled() {
+      return cancelled;
+    }
+
+    public void setCancelled(boolean cancelled) {
+      this.cancelled = cancelled;
     }
 
     public Timeline getTimeline() {

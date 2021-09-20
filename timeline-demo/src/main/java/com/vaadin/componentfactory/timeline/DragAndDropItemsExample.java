@@ -7,6 +7,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
 
 @Route(value = "drag-and-drop-items", layout = MainLayout.class)
 public class DragAndDropItemsExample extends Div {
@@ -43,7 +44,14 @@ public class DragAndDropItemsExample extends Div {
     timeline.setMultiselect(true);
     
     // add listener to get new range values for drag item(s)
-    timeline.addItemMoveListener(e -> log.add(new Span("Item: " + e.getItemId() + " was dragged. New start: " + formatDates(e.getNewStart()) + " - New end: " + formatDates(e.getNewEnd()))));
+    timeline.addItemMoveListener(e -> {
+      e.setCancelled(new Random().nextBoolean());
+      if(e.isCancelled()) {
+        log.add(new Span("Moving item " + e.getItemId() + "is not possible. Moving reverted."));
+      } else {
+        log.add(new Span("Item: " + e.getItemId() + " was dragged. New start: " + formatDates(e.getNewStart()) + " - New end: " + formatDates(e.getNewEnd())));
+      }
+    });
     
     timeline.setZoomable(false);
     

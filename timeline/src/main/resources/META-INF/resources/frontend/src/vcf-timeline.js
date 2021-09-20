@@ -57,6 +57,14 @@ window.vcftimeline = {
 		container.timeline.setItems(items);
 		container.timeline.fit();
 	},
+	
+	revertMove: function(container, itemId, itemJson) {
+	    var itemData = container.timeline.itemSet.items[itemId].data;
+	    var parsedItem = JSON.parse(itemJson);
+		itemData.start = parsedItem.start;
+		itemData.end = parsedItem.end;
+		container.timeline.itemsData.update(itemData);
+	},
 
 	setClusterOptions: function(container, clusterOptionsJson) {
 		var updatedOptions = {};
