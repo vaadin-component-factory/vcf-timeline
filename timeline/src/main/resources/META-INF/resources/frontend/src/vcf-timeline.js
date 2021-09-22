@@ -36,8 +36,8 @@ window.vcftimeline = {
 		// 		});
 		// 	}
 		// 	callback(item);
-		// }
-
+		// },
+		
 	  };
 
 	  var options = {};
@@ -69,8 +69,9 @@ window.vcftimeline = {
 	
 	removeItem: function(container, itemId) {
 		container.timeline.itemsData.remove(itemId);
+		container.$server.onRemove(itemId);
 	},
-
+	
 	setClusterOptions: function(container, clusterOptionsJson) {
 		var updatedOptions = {};
 		var options = container.timeline.options;
@@ -90,8 +91,7 @@ window.vcftimeline = {
 		var local = new Date(date);
 		local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
 		return local.toJSON().slice(0, 19);		
-	},
-  
+	},  
 }
 
 

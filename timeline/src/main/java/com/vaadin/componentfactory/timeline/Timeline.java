@@ -44,7 +44,7 @@ public class Timeline extends Div {
 
   public Timeline(Item ... items) {
     this();
-    this.items = Arrays.asList(items);   
+    this.items = new ArrayList<Item>(Arrays.asList(items));   
   }
       
   protected TimelineOptions getTimelineOptions() {
@@ -78,7 +78,8 @@ public class Timeline extends Div {
   /**
    * Add a new item to the timeline.
    * 
-   * @param item the new item to add to the timeline
+   * @param item 
+   *            the new item to add to the timeline
    */
   public void addItem(Item item) {
     if(clusterIdProvider != null) {
@@ -97,6 +98,15 @@ public class Timeline extends Div {
     this.items = itemsList;
   }
   
+  /**
+   * Return the list of items that are currently part of the timeline.
+   * 
+   * @return the list of items of the timeline
+   */
+  public List<Item> getItems() {
+    return items;
+  }
+
   public void setTimelineRange(LocalDateTime min, LocalDateTime max) {
     getTimelineOptions().min = min;
     getTimelineOptions().max = max; 
@@ -169,7 +179,8 @@ public class Timeline extends Div {
   /**
    * Defines a template for tooltip for merged items.
    * 
-   * @param titleTemplate the tooltip template
+   * @param titleTemplate 
+   *            the tooltip template
    */
   public void setClusterTitleTemplate(String titleTemplate) {
     getClusterOptions().titleTemplate = titleTemplate;
@@ -210,13 +221,17 @@ public class Timeline extends Div {
   /**
    * Fires a {@link ItemMoveEvent}.
    * 
-   * @param itemId
-   * @param newStart
-   * @param newEnd
-   * @param fromClient
+   * @param itemId 
+   *            id of the item that was moved
+   * @param newStart 
+   *            new start date for the item
+   * @param newEnd 
+   *            new end date for the item
+   * @param fromClient 
+   *            if event comes from client
    */
   protected void fireItemMoveEvent(String itemId, LocalDateTime newStart, LocalDateTime newEnd, boolean fromClient) {
-    ItemMoveEvent event = new ItemMoveEvent(this, itemId, newStart, newEnd,fromClient);
+    ItemMoveEvent event = new ItemMoveEvent(this, itemId, newStart, newEnd, fromClient);
     fireEvent(event);
     if(event.isCancelled()) {
       // if update is cancelled revert item resizing
@@ -281,11 +296,80 @@ public class Timeline extends Div {
   }
   
   /**
-   * Adds a  listener for {@link ItemMoveEvent} to the component.
+   * Adds a listener for {@link ItemMoveEvent} to the component.
    *
-   * @param listener the listener to be added.
+   * @param listener 
+   *            the listener to be added
    */
   public void addItemMoveListener(ComponentEventListener<ItemMoveEvent> listener) {
     addListener(ItemMoveEvent.class, listener);
   }
+  
+  /**
+   * Removes an item.
+   * 
+   * @param item
+   *            item to be removed.
+   */
+  public void removeItem(Item item) {
+    this.getElement().executeJs("vcftimeline.removeItem($0, $1)", this, item.getId());
+  }
+  
+  /**
+   * Call from client when an item is removed.
+   * 
+   * @param itemId
+   *            id of the removed item
+   */
+  @ClientCallable
+  public void onRemove(String itemId) {     
+    fireItemRemoveEvent(itemId, true);    
+  }
+  
+  /**
+   * Fires a {@link ItemRemoveEvent}.
+   * 
+   * @param itemId
+   *            id of the removed item
+   * @param fromClient
+   *            if event comes from client
+   */
+  public void fireItemRemoveEvent(String itemId, boolean fromClient) {
+    ItemRemoveEvent event = new ItemRemoveEvent(this, itemId, fromClient);
+    //update items list
+    items.removeIf(item -> itemId.equals(item.getId()));
+    fireEvent(event);   
+  }
+  
+  /**
+   * Event thrown when an item is removed from the timeline.
+   */
+  public static class ItemRemoveEvent extends ComponentEvent<Timeline> {
+
+    private final String itemId;   
+
+    public ItemRemoveEvent(Timeline source, String itemId, boolean fromClient) {
+      super(source, fromClient);
+      this.itemId = itemId;
+    }     
+
+    public String getItemId() {
+      return itemId;
+    }
+ 
+    public Timeline getTimeline() {
+      return (Timeline) source;
+    }
+  }
+  
+  /**
+   * Adds a listener for {@link ItemRemoveEvent} to the component.
+   *
+   * @param listener 
+   *            the listener to be added.
+   */
+  public void addItemRemoveListener(ComponentEventListener<ItemRemoveEvent> listener) {
+    addListener(ItemRemoveEvent.class, listener);
+  }
+  
 }
