@@ -47,7 +47,7 @@ public class DragAndDropItemsExample extends Div {
     timeline.addItemMoveListener(e -> {
       e.setCancelled(new Random().nextBoolean());
       if(e.isCancelled()) {
-        log.add(new Span("Moving item " + e.getItemId() + "is not possible. Moving reverted."));
+        log.add(new Span("Moving item " + e.getItemId() + " is not possible. Moving reverted."));
       } else {
         log.add(new Span("Item: " + e.getItemId() + " was dragged. New start: " + formatDates(e.getNewStart()) + " - New end: " + formatDates(e.getNewEnd())));
       }

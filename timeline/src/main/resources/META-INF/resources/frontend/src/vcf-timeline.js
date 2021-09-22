@@ -65,15 +65,15 @@ window.vcftimeline = {
 	},
 	
 	revertMove: function(container, itemId, itemJson) {
-	    var itemData = container.timeline.itemSet.items[itemId].data;
+	    var itemData = container.timeline._timeline.itemSet.items[itemId].data;
 	    var parsedItem = JSON.parse(itemJson);
 		itemData.start = parsedItem.start;
 		itemData.end = parsedItem.end;
-		container.timeline.itemsData.update(itemData);
+		container.timeline._timeline.itemsData.update(itemData);
 	},
 	
 	removeItem: function(container, itemId) {
-		container.timeline.itemsData.remove(itemId);
+		container.timeline._timeline.itemsData.remove(itemId);
 		container.$server.onRemove(itemId);
 	},
 	

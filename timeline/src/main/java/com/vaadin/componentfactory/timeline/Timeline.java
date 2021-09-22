@@ -237,7 +237,7 @@ public class Timeline extends Div {
     if(event.isCancelled()) {
       // if update is cancelled revert item resizing
       Item item = items.stream()
-          .filter(i -> itemId.equals(i.getId()))
+          .filter(i -> itemId.equals(String.valueOf(i.getId())))
           .findFirst().orElse(null);
       if(item != null) {        
         this.getElement().executeJs("vcftimeline.revertMove($0, $1, $2)", this, itemId, item.toJSON());
@@ -245,7 +245,7 @@ public class Timeline extends Div {
     } else {
       //update item in list
       items.stream()
-      .filter(i -> itemId.equals(i.getId()))
+      .filter(i -> itemId.equals(String.valueOf(i.getId())))
       .findFirst()
       .ifPresent(item -> {
         item.setStart(newStart); 
