@@ -338,7 +338,7 @@ public class Timeline extends Div {
   public void fireItemRemoveEvent(String itemId, boolean fromClient) {
     ItemRemoveEvent event = new ItemRemoveEvent(this, itemId, fromClient);
     //update items list
-    items.removeIf(item -> itemId.equals(item.getId()));
+    items.removeIf(item -> itemId.equals(String.valueOf(item.getId())));
     fireEvent(event);   
   }
   
