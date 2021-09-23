@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 @JsModule("./src/arrow.js")
 @JsModule("./src/vcf-timeline.js")
 @CssImport("vis-timeline/styles/vis-timeline-graph2d.min.css")
+@CssImport("./styles/timeline.css")
 public class Timeline extends Div {
 
   private List<Item> items = new ArrayList<>();
@@ -41,6 +42,7 @@ public class Timeline extends Div {
   public Timeline() {
     setId("visualization" + this.hashCode());
     setWidthFull();
+    setClassName("timeline");
   }
 
   public Timeline(Item ... items) {

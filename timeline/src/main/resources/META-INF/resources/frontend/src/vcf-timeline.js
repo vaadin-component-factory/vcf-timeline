@@ -21,6 +21,8 @@ window.vcftimeline = {
 			var startDate = window.vcftimeline._convertDate(item.start);
 			var endDate = window.vcftimeline._convertDate(item.end);
 
+			window.vcftimeline._updateConnections(container);
+
 			container.$server.onMove(item.id, startDate, endDate);
 		  },
 		onMoving: function(item, callback) {
@@ -48,20 +50,27 @@ window.vcftimeline = {
 	  // Create Timeline	
 	  var timeline = new vis.Timeline(container, items, options);
       		
-      const line_timeline = new Arrow(timeline, window.vcftimeline._createConnections(parsedItems));
+      const line_timeline = new Arrow(timeline);
 	  container.timeline = line_timeline;
 
+	  container.timeline._timeline.on("changed", () => {
+            this._updateConnections(container);
+        });      
   	},
 
   	addItem: function(container, newItemJson) {
 		container.timeline._timeline.itemsData.add(JSON.parse(newItemJson));
 		container.timeline._timeline.fit();
+
+		this._updateConnections(container);
 	},
 
 	setItems: function(container, itemsJson) {
 		var items = new vis.DataSet(JSON.parse(itemsJson));
 		container.timeline._timeline.setItems(items);
 		container.timeline._timeline.fit();
+
+		this._updateConnections(container);
 	},
 	
 	revertMove: function(container, itemId, itemJson) {
@@ -70,11 +79,15 @@ window.vcftimeline = {
 		itemData.start = parsedItem.start;
 		itemData.end = parsedItem.end;
 		container.timeline._timeline.itemsData.update(itemData);
+
+		this._updateConnections(container);
 	},
 	
 	removeItem: function(container, itemId) {
 		container.timeline._timeline.itemsData.remove(itemId);
 		container.$server.onRemove(itemId);
+
+		this._updateConnections(container);
 	},
 	
 	setClusterOptions: function(container, clusterOptionsJson) {
@@ -108,7 +121,7 @@ window.vcftimeline = {
 	_createConnections: function(items) {
 	  // Sort items in order to be able to create connections for timeline-arrow
 	  // (horizontal line)
-	  var sortedItems = window.vcftimeline._sortItems(items);
+	  var sortedItems = this._sortItems(items);
 
       // Create connections for items
 	  var connections = [];
@@ -130,6 +143,10 @@ window.vcftimeline = {
 	  return connections;
 	},
 	
+	_updateConnections: function(container) {
+		var connections = this._createConnections(container.timeline._timeline.itemsData.get());
+		container.timeline.setDependencies(connections);
+	}
 }
 
 
