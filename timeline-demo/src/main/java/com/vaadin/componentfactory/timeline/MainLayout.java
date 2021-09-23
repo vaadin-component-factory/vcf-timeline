@@ -18,8 +18,9 @@ public class MainLayout extends AppLayout {
     final RouterLink tooltipsExample = new RouterLink("Items with tooltips", ItemsWithTooltipsExample.class);
     final RouterLink classNameExample = new RouterLink("Items with classnames", ItemsWithClassNameExample.class);
     final RouterLink readonlyExample = new RouterLink("Readonly timeline", ReadonlyExample.class);
+    final RouterLink updateItemContentExample = new RouterLink("Update item content", UpdateItemContentExample.class);
             
-    final VerticalLayout menuLayout = new VerticalLayout(readonlyEmptyExample, addEmptyItemsExample, clusteringExample, resizeItems, dndItems, tooltipsExample, classNameExample, readonlyExample);
+    final VerticalLayout menuLayout = new VerticalLayout(readonlyEmptyExample, addEmptyItemsExample, clusteringExample, resizeItems, dndItems, tooltipsExample, classNameExample, readonlyExample, updateItemContentExample);
     addToDrawer(menuLayout);
     addToNavbar(drawerToggle);
   }

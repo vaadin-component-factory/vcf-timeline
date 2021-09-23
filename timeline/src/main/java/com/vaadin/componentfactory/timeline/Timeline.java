@@ -214,6 +214,25 @@ public class Timeline extends Div {
     getEditableOptions().overrideItems = overrideItems;
   }
   
+  /**
+   * Updates content of an existing item.
+   * 
+   * @param itemId
+   *            id of item to be updated
+   * @param newContent
+   *            new item content
+   */
+  public void updateItemContent(Integer itemId, String newContent) {
+    this.getElement().executeJs("vcftimeline.updateItemContent($0, $1, $2)", this, itemId, newContent);
+    items.stream()
+    .filter(i -> itemId.equals(i.getId()))
+    .findFirst()
+    .ifPresent(item -> {
+      item.setContent(newContent);
+    });
+  }
+  
+  
   @ClientCallable
   public void onMove(String itemId, String itemNewStart, String itemNewEnd) {
     LocalDateTime newStart = TimelineUtil.convertLocalDateTime(itemNewStart);

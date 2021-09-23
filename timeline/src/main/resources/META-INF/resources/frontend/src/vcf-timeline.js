@@ -89,6 +89,12 @@ window.vcftimeline = {
 
 		this._updateConnections(container);
 	},
+
+	updateItemContent: function(container, itemId, newContent) {
+		var itemData = container.timeline._timeline.itemSet.items[itemId].data;
+		itemData.content = newContent;
+		container.timeline._timeline.itemsData.update(itemData);
+	},
 	
 	setClusterOptions: function(container, clusterOptionsJson) {
 		var updatedOptions = {};
@@ -110,6 +116,7 @@ window.vcftimeline = {
 		local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
 		return local.toJSON().slice(0, 19);		
 	},  
+	
 	_sortItems: function(items) {
 	  var sortedItems = items.sort(function(item1, item2) {
 		var item1_date = new Date(item1.start), item2_date = new Date(item2.start);
