@@ -1,0 +1,7 @@
+.timeline .vis-item {
+    z-index: 2;
+}
+
+.timeline .vis-item.vis-selected {
+    z-index: 3;
+}

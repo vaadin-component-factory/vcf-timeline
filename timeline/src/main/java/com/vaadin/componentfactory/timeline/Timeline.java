@@ -23,8 +23,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @NpmPackage(value = "vis-timeline", version = "7.4.9")
+@JsModule("./src/arrow.js")
 @JsModule("./src/vcf-timeline.js")
 @CssImport("vis-timeline/styles/vis-timeline-graph2d.min.css")
+@CssImport("./styles/timeline.css")
 public class Timeline extends Div {
 
   private List<Item> items = new ArrayList<>();
@@ -40,6 +42,7 @@ public class Timeline extends Div {
   public Timeline() {
     setId("visualization" + this.hashCode());
     setWidthFull();
+    setClassName("timeline");
   }
 
   public Timeline(Item ... items) {
@@ -236,7 +239,7 @@ public class Timeline extends Div {
     if(event.isCancelled()) {
       // if update is cancelled revert item resizing
       Item item = items.stream()
-          .filter(i -> itemId.equals(i.getId()))
+          .filter(i -> itemId.equals(String.valueOf(i.getId())))
           .findFirst().orElse(null);
       if(item != null) {        
         this.getElement().executeJs("vcftimeline.revertMove($0, $1, $2)", this, itemId, item.toJSON());
@@ -244,7 +247,7 @@ public class Timeline extends Div {
     } else {
       //update item in list
       items.stream()
-      .filter(i -> itemId.equals(i.getId()))
+      .filter(i -> itemId.equals(String.valueOf(i.getId())))
       .findFirst()
       .ifPresent(item -> {
         item.setStart(newStart); 
@@ -337,7 +340,7 @@ public class Timeline extends Div {
   public void fireItemRemoveEvent(String itemId, boolean fromClient) {
     ItemRemoveEvent event = new ItemRemoveEvent(this, itemId, fromClient);
     //update items list
-    items.removeIf(item -> itemId.equals(item.getId()));
+    items.removeIf(item -> itemId.equals(String.valueOf(item.getId())));
     fireEvent(event);   
   }
   

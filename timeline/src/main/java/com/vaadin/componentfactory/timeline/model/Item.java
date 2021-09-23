@@ -5,11 +5,10 @@ import elemental.json.JsonObject;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 
 public class Item {
-  
-  private String id = UUID.randomUUID().toString();
+    
+  private Integer id;
 
   private LocalDateTime start;
   
@@ -42,14 +41,14 @@ public class Item {
       this.setContent(content);
   }
 
-  public String getId() {
-      return id;
+  public Integer getId() {
+    return id;
   }
-
-  public void setId(String id) {
-      this.id = id;
+  
+  public void setId(Integer id) {
+    this.id = id;
   }
-
+  
   public LocalDateTime getStart() {
       return start;
   }

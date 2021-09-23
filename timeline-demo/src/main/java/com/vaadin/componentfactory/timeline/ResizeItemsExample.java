@@ -2,7 +2,6 @@ package com.vaadin.componentfactory.timeline;
 
 import com.vaadin.componentfactory.timeline.model.Item;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
@@ -18,16 +17,16 @@ public class ResizeItemsExample extends Div {
 
     // create items
     Item item1 = new Item(LocalDateTime.of(2021, 8, 11, 2, 30, 00), LocalDateTime.of(2021, 8, 11, 7, 00, 00), "Readonly");
-    item1.setId("Item 1");
+    item1.setId(1);
     item1.setEditable(false); // Lock an activity so it can’t be edited
     
     Item item2 = new Item(LocalDateTime.of(2021, 8, 13, 0, 00, 00), LocalDateTime.of(2021, 8, 13, 12, 00, 00), "Resizable");
-    item2.setId("Item 2");
+    item2.setId(2);
     item2.setEditable(true);
     item2.setUpdateTime(true); // allow resizing by updateTime property
  
     Item item3 = new Item(LocalDateTime.of(2021, 8, 15, 2, 30, 00), LocalDateTime.of(2021, 8, 16, 1, 00, 00), "Resizable 2");
-    item3.setId("Item 3");
+    item3.setId(3);
     item3.setEditable(true);
     item3.setUpdateTime(true);
     
