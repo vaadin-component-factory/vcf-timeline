@@ -2,7 +2,6 @@ package com.vaadin.componentfactory.timeline;
 
 import com.vaadin.componentfactory.timeline.model.AxisOrientation;
 import com.vaadin.componentfactory.timeline.model.ClusterOptions;
-import com.vaadin.componentfactory.timeline.model.EditableOptions;
 import com.vaadin.componentfactory.timeline.model.Item;
 import com.vaadin.componentfactory.timeline.model.SnapStep;
 import com.vaadin.componentfactory.timeline.model.TimelineOptions;
@@ -35,9 +34,7 @@ public class Timeline extends Div {
   private TimelineOptions timelineOptions = new TimelineOptions();
   
   private ClusterOptions clusterOptions = new ClusterOptions();
-  
-  private EditableOptions editableOptions = new EditableOptions();
-  
+    
   private ClusterIdProvider clusterIdProvider;
   
   public Timeline() {
@@ -192,27 +189,6 @@ public class Timeline extends Div {
   
   public void setClusterMaxItems(Integer maxItems) {
     getClusterOptions().maxItems = maxItems;
-  }
-  
-  protected EditableOptions getEditableOptions() {
-    return editableOptions;
-  }
-  
-  public void setEditable(boolean editable) {
-    getEditableOptions().editable = editable;
-  }
-  
-  /** 
-   * This option should be set true to allow all timeline items to be resizables or draggables.
-   * 
-   * @param updateTime
-   */
-  public void setUpdateTime(boolean updateTime) {
-    getEditableOptions().updateTime = updateTime;
-  }
-  
-  public void setOverrideItemsOptions(boolean overrideItems) {
-    getEditableOptions().overrideItems = overrideItems;
   }
   
   /**

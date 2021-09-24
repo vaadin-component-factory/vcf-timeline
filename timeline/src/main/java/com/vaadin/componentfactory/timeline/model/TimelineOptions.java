@@ -23,7 +23,12 @@ public class TimelineOptions {
   public Long zoomMax = 315360000000000L;
   
   /* Specifies whether the Timeline can be moved and zoomed by dragging the window. */
-  public boolean moveable = true;
+  public boolean moveable = true;  
+  
+  /* When true, the items in the timeline can be manipulated. 
+   * Only applicable when option selectable is true.
+   */
+  public boolean editable = false;
   
   /* Specifies whether the Timeline can be zoomed by pinching or scrolling in the window. 
    * Only applicable when option moveable is true.
@@ -78,6 +83,7 @@ public class TimelineOptions {
     js.put("moveable", moveable);
     js.put("zoomable", zoomable);
     js.put("selectable", selectable);
+    js.put("editable", editable);
     js.put("showCurrentTime", showCurrentTime);
     js.put("width", width);    
     
