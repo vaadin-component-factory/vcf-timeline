@@ -70,16 +70,12 @@ window.vcftimeline = {
   	addItem: function(container, newItemJson) {
 		container.timeline._timeline.itemsData.add(JSON.parse(newItemJson));
 		container.timeline._timeline.fit();
-
-		this._updateConnections(container);
 	},
 
 	setItems: function(container, itemsJson) {
 		var items = new vis.DataSet(JSON.parse(itemsJson));
 		container.timeline._timeline.setItems(items);
 		container.timeline._timeline.fit();
-
-		this._updateConnections(container);
 	},
 	
 	revertMove: function(container, itemId, itemJson) {
@@ -88,15 +84,11 @@ window.vcftimeline = {
 		itemData.start = parsedItem.start;
 		itemData.end = parsedItem.end;
 		container.timeline._timeline.itemsData.update(itemData);
-
-		this._updateConnections(container);
 	},
 	
 	removeItem: function(container, itemId) {
 		container.timeline._timeline.itemsData.remove(itemId);
 		container.$server.onRemove(itemId);
-
-		this._updateConnections(container);
 	},
 
 	updateItemContent: function(container, itemId, newContent) {
