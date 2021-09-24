@@ -30,20 +30,21 @@ window.vcftimeline = {
 		},
 
 		onMoving: function(item, callback) {
-			// var range = container.timeline._timeline.getWindow();
-			// if(item.start <= range.start) {
-			// 	var diff = (range.start.valueOf() - item.start.getTime()) * 5;
-			// 	container.timeline._timeline.setWindow({
-			// 		start: range.start.valueOf() - diff,
-			// 		end: range.end.valueOf() - diff,
-			// 	});
-			// } else if(item.end >= range.end) {
-			// 	var diff = (item.end.getTime() - range.end.valueOf()) * 5;
-			// 	container.timeline._timeline.setWindow({
-			// 		start: range.start.valueOf() + diff,
-			// 		end: range.end.valueOf() + diff,
-			// 	});
-			// }
+			var range = container.timeline._timeline.getWindow();
+			if(item.start <= range.start) {
+				var diff = (range.start.valueOf() - item.start.getTime()) * 5;
+				container.timeline._timeline.setWindow({
+					start: range.start.valueOf() - diff,
+					end: range.end.valueOf() - diff,
+				});
+			} else if(item.end >= range.end) {
+				var diff = (item.end.getTime() - range.end.valueOf()) * 5;
+				container.timeline._timeline.setWindow({
+					start: range.start.valueOf() + diff,
+					end: range.end.valueOf() + diff,
+				});
+			}
+						
 			callback(item);
 		},
 
