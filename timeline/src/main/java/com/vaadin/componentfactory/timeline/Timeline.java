@@ -4,6 +4,7 @@ import com.vaadin.componentfactory.timeline.model.AxisOrientation;
 import com.vaadin.componentfactory.timeline.model.ClusterOptions;
 import com.vaadin.componentfactory.timeline.model.EditableOptions;
 import com.vaadin.componentfactory.timeline.model.Item;
+import com.vaadin.componentfactory.timeline.model.SnapStep;
 import com.vaadin.componentfactory.timeline.model.TimelineOptions;
 import com.vaadin.componentfactory.timeline.util.ClusterIdProvider;
 import com.vaadin.componentfactory.timeline.util.TimelineUtil;
@@ -232,6 +233,16 @@ public class Timeline extends Div {
     });
   }
   
+  /**
+   * Sets snap value. It can be an hour, half an hour or fifteen minutes.
+   * By default it is set at fifteeen minutes.
+   * 
+   * @param snapStep
+   *            snap value
+   */
+  public void setSnapStep(SnapStep snapStep) {
+    getTimelineOptions().snapStep = snapStep.getMinutes();
+  }
   
   @ClientCallable
   public void onMove(String itemId, String itemNewStart, String itemNewEnd) {

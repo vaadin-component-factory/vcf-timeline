@@ -62,6 +62,9 @@ public class TimelineOptions {
    * If false, item tooltips are prevented from showing. */
   public boolean showTooltips = true;
   
+  /* By default snap is set to fifteen minutes */
+  public Integer snapStep = SnapStep.QUARTER.getMinutes();
+  
   public String toJSON() {
     JsonObject js = Json.createObject();
     Optional.ofNullable(min).ifPresent(v -> js.put("min", v.toString()));     
@@ -84,6 +87,7 @@ public class TimelineOptions {
     Optional.ofNullable(start).ifPresent(v -> js.put("start", v.toString())); 
     js.put("multiselect", multiselect);
     js.put("showTooltips", showTooltips);
+    js.put("snapStep", snapStep);
     
     return js.toJson();
   }  

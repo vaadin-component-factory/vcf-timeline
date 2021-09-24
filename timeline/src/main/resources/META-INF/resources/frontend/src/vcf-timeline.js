@@ -14,6 +14,8 @@ window.vcftimeline = {
 	  // Configuration for the Timeline
 	  var parsedOptions = JSON.parse(optionsJson);
 
+	  var snapStep = parsedOptions.snapStep;
+
 	  var defaultOptions = {
 		onMove: function(item, callback) {
 			callback(item); 
@@ -24,24 +26,31 @@ window.vcftimeline = {
 			window.vcftimeline._updateConnections(container);
 
 			container.$server.onMove(item.id, startDate, endDate);
-		  },
+		},
+
 		onMoving: function(item, callback) {
-		// 	var range = container.timeline._timeline.getWindow();
-		// 	if(item.start <= range.start) {
-		// 		var diff = range.start.valueOf() - item.start.getTime();
-		// 		container.timeline._timeline.setWindow({
-		// 			start: range.start.valueOf() - diff,
-		// 			end: range.end.valueOf() - diff,
-		// 		});
-		// 	} else if(item.end >= range.end) {
-		// 		var diff = item.end.getTime() - range.end.valueOf();
-		// 		container.timeline._timeline.setWindow({
-		// 			start: range.start.valueOf() + diff,
-		// 			end: range.end.valueOf() + diff,
-		// 		});
-		// 	}
+			// var range = container.timeline._timeline.getWindow();
+			// if(item.start <= range.start) {
+			// 	var diff = (range.start.valueOf() - item.start.getTime()) * 5;
+			// 	container.timeline._timeline.setWindow({
+			// 		start: range.start.valueOf() - diff,
+			// 		end: range.end.valueOf() - diff,
+			// 	});
+			// } else if(item.end >= range.end) {
+			// 	var diff = (item.end.getTime() - range.end.valueOf()) * 5;
+			// 	container.timeline._timeline.setWindow({
+			// 		start: range.start.valueOf() + diff,
+			// 		end: range.end.valueOf() + diff,
+			// 	});
+			// }
 			callback(item);
-		}
+		},
+
+		snap: function (date, scale, step) {
+			var hour = snapStep * 60 * 1000;
+			return Math.round(date / hour) * hour;
+		},
+
 	  };
 
 	  var options = {};
@@ -55,7 +64,7 @@ window.vcftimeline = {
 
 	  container.timeline._timeline.on("changed", () => {
             this._updateConnections(container);
-        });      
+        }); 
   	},
 
   	addItem: function(container, newItemJson) {
