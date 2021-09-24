@@ -15,6 +15,7 @@ window.vcftimeline = {
 	  var parsedOptions = JSON.parse(optionsJson);
 
 	  var snapStep = parsedOptions.snapStep;
+	  delete parsedOptions.snapStep
 
 	  var defaultOptions = {
 		onMove: function(item, callback) {
