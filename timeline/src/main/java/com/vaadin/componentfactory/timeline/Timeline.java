@@ -220,6 +220,10 @@ public class Timeline extends Div {
     getTimelineOptions().snapStep = snapStep.getMinutes();
   }
   
+  public void setZoomOption(Integer zoomOption) {
+    this.getElement().executeJs("vcftimeline.setZoomOption($0, $1)", this, zoomOption);
+  }
+  
   @ClientCallable
   public void onMove(String itemId, String itemNewStart, String itemNewEnd) {
     LocalDateTime newStart = TimelineUtil.convertLocalDateTime(itemNewStart);

@@ -113,6 +113,31 @@ window.vcftimeline = {
 		Object.assign(updatedOptions, options, jsonTransformed);
 		container.timeline._timeline.setOptions(updatedOptions);
 	},
+
+	setZoomOption: function(container, zoomDays) {
+		var startDate;
+		var selectedItems = container.timeline._timeline.getSelection();
+		if(selectedItems.length > 0){
+			var selectedItem = selectedItems.length > 1 ? this._sortItems(selectedItems)[0] : selectedItems[0];
+			startDate = container.timeline._timeline.itemSet.items[selectedItem].data.start;
+		} else {
+			var range = container.timeline._timeline.getWindow();
+			startDate = range.start;
+		}
+
+		var start = vis.moment(startDate);
+		start.hour(0);
+		start.minutes(0);
+		start.seconds(0);
+
+		var end = vis.moment(startDate);
+		end.add(zoomDays, 'days');
+		
+		container.timeline._timeline.setWindow({
+			start: start,
+			end: end,
+		});
+	},
 	
 	_convertDate: function(date) {
 		var local = new Date(date);
