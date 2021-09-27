@@ -6,6 +6,9 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * Representation of a timeline item.
+ */
 public class Item {
     
   private Integer id;

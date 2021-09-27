@@ -22,6 +22,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Timeline component definition. 
+ * Timeline uses vis-timeline component to display data in time 
+ * (see more at https://github.com/visjs/vis-timeline).
+ */
+@SuppressWarnings("serial")
 @NpmPackage(value = "vis-timeline", version = "7.4.9")
 @JsModule("./src/arrow.js")
 @JsModule("./src/vcf-timeline.js")
@@ -108,58 +114,150 @@ public class Timeline extends Div {
     return items;
   }
 
+  /**
+   * Sets visible range for timeline.
+   * 
+   * @param min
+   *            minimum date
+   * @param max
+   *            maximum date
+   */
   public void setTimelineRange(LocalDateTime min, LocalDateTime max) {
     getTimelineOptions().min = min;
     getTimelineOptions().max = max; 
   }
   
+  /**
+   * Sets orientation of the timeline axis.
+   * By default axis is on top.
+   * 
+   * @param axisOrientation
+   *            orientation of the timeline axis
+   */
   public void setAxisOrientation(AxisOrientation axisOrientation) {
     getTimelineOptions().axisOrientation = axisOrientation.getName();
   }
   
+  /**
+   * Sets whether the timeline can be zoomed by pinching or scrolling in the window.
+   * By default, timeline is zoomable. 
+   * Option moveable shoul be true.
+   * 
+   * @param zoomable
+   *            true if timeline is zoomable
+   */
   public void setZoomable(boolean zoomable) {
     getTimelineOptions().zoomable = zoomable;
   }
   
+  /**
+   * Sets wheter the timeline can be moved by dragging the window.
+   * By default, timeline is moveable.
+   * 
+   * @param moveable
+   *            true if timeline is moveable
+   */
   public void setMoveable(boolean moveable) {
     getTimelineOptions().moveable = moveable;
   }
   
+  /**
+   * Sets zoom range for timeline.
+   * 
+   * @param zoomMin
+   *            minimum zoom interval
+   * @param zoomMax
+   *            maximum zoom interval
+   */
   public void setZoomRange(Long zoomMin, Long zoomMax) {
     getTimelineOptions().zoomMin = zoomMin;
     getTimelineOptions().zoomMax = zoomMax;
   }
     
+  /**
+   * Sets wheter the items in the timeline can be selected.
+   * By default, items are selectables.
+   * 
+   * @param selectable
+   *            true if times can be selected
+   */
   public void setSelectable(boolean selectable) {
     getTimelineOptions().selectable = selectable;
   }
   
+  /**
+   * Sets whether a vertical bar at current time is displayed.
+   * By default, not current time is displayed.
+   * 
+   * @param showCurrentTime
+   *            true if current time is shown
+   */
   public void setShowCurentTime(boolean showCurrentTime) {
     getTimelineOptions().showCurrentTime = showCurrentTime;
   }
       
+  /**
+   * Sets the height of the timeline. Value can be in pixles or as 
+   * percentaje (e.g. "300px"). When height is undefined or null, 
+   * the height of the timeline is automatically adjusted to fit 
+   * the contents.
+   */
   @Override
   public void setHeight(String height) {
     getTimelineOptions().height = height;
   }
   
+  /**
+  * Sets the maximum height for the timeline.
+  */
   @Override
   public void setMaxHeight(String maxHeight) {
     getTimelineOptions().maxHeight = maxHeight;
   }
   
+  /**
+   * Sets the initial start date for the axis of the timeline. 
+   * If it's not provided, the earliest date present in the events 
+   * is taken as start date.
+   * 
+   * @param start
+   *            initial start date
+   */
   public void setStart(LocalDateTime start) {
     getTimelineOptions().start = start;
   }
   
+  /**
+   * Sets whether items will be stack on top of each other
+   * if they overlap.
+   * By default item will not stack. 
+   * 
+   * @param stack
+   *            true if items should stack
+   */
   public void setStack(boolean stack) {
     getTimelineOptions().stack = stack;
   }
   
+  /**
+   * Sets whether multiple items can be selected. 
+   * Option selectable should be true.
+   * By default, multiselect is disabled.
+   * 
+   * @param multiselect
+   *            true if multiselect is allowed
+   */
   public void setMultiselect(boolean multiselect) {
     getTimelineOptions().multiselect = multiselect;
   }
   
+  /**
+   * Sets whether tooltips will be displaying for items with
+   * defined titles. By default, tooltips will be visibles.
+   * 
+   * @param showTooltips
+   *            true if tooltips should be shown
+   */
   public void setShowTooltips(boolean showTooltips) {
     getTimelineOptions().showTooltips = showTooltips;
   }
@@ -220,6 +318,12 @@ public class Timeline extends Div {
     getTimelineOptions().snapStep = snapStep.getMinutes();
   }
   
+  /**
+   * Sets zoom option for timeline.
+   * 
+   * @param zoomOption
+   *            integer representing days for zooming
+   */
   public void setZoomOption(Integer zoomOption) {
     this.getElement().executeJs("vcftimeline.setZoomOption($0, $1)", this, zoomOption);
   }

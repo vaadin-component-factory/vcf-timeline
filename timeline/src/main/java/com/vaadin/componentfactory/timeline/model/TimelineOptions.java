@@ -5,6 +5,10 @@ import elemental.json.JsonObject;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+/**
+ * Representation of the different options that can be configure for a 
+ * {@link Timeline} component.
+ */
 public class TimelineOptions {
 
   /* Minimum Date for the visible range.*/
