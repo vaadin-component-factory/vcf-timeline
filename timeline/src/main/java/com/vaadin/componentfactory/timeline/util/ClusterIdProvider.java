@@ -6,6 +6,6 @@ import com.vaadin.flow.function.SerializableFunction;
 @FunctionalInterface
 public interface ClusterIdProvider extends SerializableFunction<Item, String> {
 
-    @Override
-    String apply(Item item);
+  @Override
+  String apply(Item item);
 }
