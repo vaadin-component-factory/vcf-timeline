@@ -14,8 +14,6 @@ public class MainLayout extends AppLayout {
         new RouterLink("Readonly empty timeline", ReadonlyEmptyExample.class);
     final RouterLink addEmptyItemsExample =
         new RouterLink("Add empty items", AddEmptyItemsExample.class);
-    final RouterLink clusteringExample =
-        new RouterLink("Merge overlapped items", ClusteringExample.class);
     final RouterLink resizeItems = new RouterLink("Resize items", ResizeItemsExample.class);
     final RouterLink dndItems =
         new RouterLink("Drag and drop items", DragAndDropItemsExample.class);
@@ -32,7 +30,6 @@ public class MainLayout extends AppLayout {
         new VerticalLayout(
             readonlyEmptyExample,
             addEmptyItemsExample,
-            clusteringExample,
             resizeItems,
             dndItems,
             tooltipsExample,
