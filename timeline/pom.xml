@@ -119,14 +119,14 @@
                     <failOnMissingHeader>true</failOnMissingHeader>
                     <failOnNotUptodateHeader>true</failOnNotUptodateHeader>
                 </configuration>
-<!--                 <executions> -->
-<!--                     <execution> -->
-<!--                         <goals> -->
-<!--                             <goal>check-file-header</goal> -->
-<!--                         </goals> -->
-<!--                         <phase>process-sources</phase> -->
-<!--                     </execution> -->
-<!--                 </executions> -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check-file-header</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
