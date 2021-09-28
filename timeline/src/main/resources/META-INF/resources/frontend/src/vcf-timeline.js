@@ -99,21 +99,6 @@ window.vcftimeline = {
 		container.timeline._timeline.itemsData.update(itemData);
 	},
 	
-	setClusterOptions: function(container, clusterOptionsJson) {
-		var updatedOptions = {};
-		var options = container.timeline._timeline.options;
-		var jsonTransformed = JSON.parse(clusterOptionsJson, function (key, value) {
-			if (value && (typeof value === 'string') && value.indexOf("clusterCriteria") === 0) {
-				return function(item1 , item2) {
-					return item1.clusterId == item2.clusterId;
-				};
-			}				 
-			return value;
-		});
-		Object.assign(updatedOptions, options, jsonTransformed);
-		container.timeline._timeline.setOptions(updatedOptions);
-	},
-
 	setZoomOption: function(container, zoomDays) {
 		var startDate;
 		var selectedItems = container.timeline._timeline.getSelection();

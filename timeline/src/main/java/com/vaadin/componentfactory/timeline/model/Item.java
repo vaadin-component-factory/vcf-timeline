@@ -17,8 +17,6 @@ public class Item {
 
   private String content;
 
-  private String clusterId;
-
   private Boolean editable;
 
   private Boolean updateTime;
@@ -72,14 +70,6 @@ public class Item {
 
   public void setContent(String content) {
     this.content = content;
-  }
-
-  public String getClusterId() {
-    return clusterId;
-  }
-
-  public void setClusterId(String clusterId) {
-    this.clusterId = clusterId;
   }
 
   public Boolean getEditable() {
@@ -142,7 +132,6 @@ public class Item {
     Optional.ofNullable(getContent()).ifPresent(v -> js.put("content", v));
     Optional.ofNullable(getStart()).ifPresent(v -> js.put("start", v.toString()));
     Optional.ofNullable(getEnd()).ifPresent(v -> js.put("end", v.toString()));
-    Optional.ofNullable(getClusterId()).ifPresent(v -> js.put("clusterId", v));
 
     Optional.ofNullable(getEditable())
         .ifPresent(

@@ -1,11 +1,9 @@
 package com.vaadin.componentfactory.timeline;
 
 import com.vaadin.componentfactory.timeline.model.AxisOrientation;
-import com.vaadin.componentfactory.timeline.model.ClusterOptions;
 import com.vaadin.componentfactory.timeline.model.Item;
 import com.vaadin.componentfactory.timeline.model.SnapStep;
 import com.vaadin.componentfactory.timeline.model.TimelineOptions;
-import com.vaadin.componentfactory.timeline.util.ClusterIdProvider;
 import com.vaadin.componentfactory.timeline.util.TimelineUtil;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.ClientCallable;
@@ -19,7 +17,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -37,10 +34,6 @@ public class Timeline extends Div {
   private List<Item> items = new ArrayList<>();
 
   private TimelineOptions timelineOptions = new TimelineOptions();
-
-  private ClusterOptions clusterOptions = new ClusterOptions();
-
-  private ClusterIdProvider clusterIdProvider;
 
   public Timeline() {
     setId("visualization" + this.hashCode());
@@ -61,7 +54,6 @@ public class Timeline extends Div {
   protected void onAttach(AttachEvent attachEvent) {
     super.onAttach(attachEvent);
     initTimeline();
-    addClusterOptions();
   }
 
   private void initTimeline() {
@@ -79,34 +71,18 @@ public class Timeline extends Div {
         : "";
   }
 
-  private void addClusterOptions() {
-    this.getElement()
-        .executeJs("vcftimeline.setClusterOptions($0, $1)", this, getClusterOptions().toJSON());
-  }
-
-  public void setClusterIdProvider(ClusterIdProvider clusterIdProvider) {
-    this.clusterIdProvider = Objects.requireNonNull(clusterIdProvider);
-    this.items.forEach(i -> i.setClusterId(clusterIdProvider.apply(i)));
-  }
-
   /**
    * Add a new item to the timeline.
    *
    * @param item the new item to add to the timeline
    */
   public void addItem(Item item) {
-    if (clusterIdProvider != null) {
-      item.setClusterId(clusterIdProvider.apply(item));
-    }
     this.getElement().executeJs("vcftimeline.addItem($0, $1)", this, item.toJSON());
     this.items.add(item);
   }
 
   public void setItems(Item... items) {
     List<Item> itemsList = this.items = Arrays.asList(items);
-    if (clusterIdProvider != null) {
-      itemsList.forEach(i -> i.setClusterId(clusterIdProvider.apply(i)));
-    }
     this.getElement()
         .executeJs("vcftimeline.setItems($0, $1)", this, "[" + convertItemsToJson() + "]");
     this.items = itemsList;
@@ -245,33 +221,7 @@ public class Timeline extends Div {
   public void setShowTooltips(boolean showTooltips) {
     getTimelineOptions().showTooltips = showTooltips;
   }
-
-  protected ClusterOptions getClusterOptions() {
-    return this.clusterOptions;
-  }
-
-  /**
-   * If true, the timeline can merge overlapped items.
-   *
-   * @param cluster
-   */
-  public void setCluster(boolean cluster) {
-    getClusterOptions().cluster = cluster;
-  }
-
-  /**
-   * Defines a template for tooltip for merged items.
-   *
-   * @param titleTemplate the tooltip template
-   */
-  public void setClusterTitleTemplate(String titleTemplate) {
-    getClusterOptions().titleTemplate = titleTemplate;
-  }
-
-  public void setClusterMaxItems(Integer maxItems) {
-    getClusterOptions().maxItems = maxItems;
-  }
-
+ 
   /**
    * Updates content of an existing item.
    *
