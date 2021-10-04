@@ -97,6 +97,8 @@ public class TimelineOptions {
 
   /* By default snap is set to fifteen minutes */
   public Integer snapStep = SnapStep.QUARTER.getMinutes();
+  
+  public boolean autoZoom = false;
 
   public String toJSON() {
     JsonObject js = Json.createObject();
@@ -123,6 +125,7 @@ public class TimelineOptions {
     js.put("multiselect", multiselect);
     js.put("showTooltips", showTooltips);
     js.put("snapStep", snapStep);
+    js.put("autoZoom", autoZoom);
 
     return js.toJson();
   }

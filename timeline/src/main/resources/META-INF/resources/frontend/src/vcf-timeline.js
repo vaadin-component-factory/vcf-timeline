@@ -48,7 +48,10 @@ window.vcftimeline = {
 	  var parsedOptions = JSON.parse(optionsJson);
 
 	  var snapStep = parsedOptions.snapStep;
-	  delete parsedOptions.snapStep
+	  delete parsedOptions.snapStep;
+
+	  var autoZoom = parsedOptions.autoZoom;
+	  delete parsedOptions.autoZoom;
 
 	  var defaultOptions = {
 		onMove: function(item, callback) {
@@ -90,6 +93,11 @@ window.vcftimeline = {
 
 	  var options = {};
 	  Object.assign(options, parsedOptions, defaultOptions);
+
+	  if(autoZoom && options.min && options.max){
+		  options.start = options.min;
+		  options.end = options.max;
+	  }
 
 	  return options;
 	},
