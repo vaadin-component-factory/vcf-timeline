@@ -29,8 +29,22 @@ window.vcftimeline = {
 
 	  // Create a DataSet
 	  var items = new vis.DataSet(parsedItems);	
-	
-	  // Configuration for the Timeline
+		 
+	  // Get options for timeline configuration	
+	  var options = this._processOptions(container, optionsJson);
+
+	  // Create Timeline	
+	  var timeline = new vis.Timeline(container, items, options);
+      		
+      const line_timeline = new Arrow(timeline);
+	  container.timeline = line_timeline;
+
+	  container.timeline._timeline.on("changed", () => {
+            this._updateConnections(container);
+        }); 
+  	},
+
+	_processOptions: function(container, optionsJson){
 	  var parsedOptions = JSON.parse(optionsJson);
 
 	  var snapStep = parsedOptions.snapStep;
@@ -77,16 +91,13 @@ window.vcftimeline = {
 	  var options = {};
 	  Object.assign(options, parsedOptions, defaultOptions);
 
-	  // Create Timeline	
-	  var timeline = new vis.Timeline(container, items, options);
-      		
-      const line_timeline = new Arrow(timeline);
-	  container.timeline = line_timeline;
+	  return options;
+	},
 
-	  container.timeline._timeline.on("changed", () => {
-            this._updateConnections(container);
-        }); 
-  	},
+	setOptions: function(container, optionsJson) {
+		var options = this._processOptions(container, optionsJson)
+		container.timeline._timeline.setOptions(options);
+	},
 
   	addItem: function(container, newItemJson) {
 		container.timeline._timeline.itemsData.add(JSON.parse(newItemJson));
