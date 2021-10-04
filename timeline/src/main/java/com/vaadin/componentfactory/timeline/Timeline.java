@@ -221,6 +221,17 @@ public class Timeline extends Div {
     getTimelineOptions().start = start;
     updateTimelineOptions();
   }
+  
+  /**
+   * The initial end date for the axis of the timeline. If not provided, the latest date present 
+   * in the items set is taken as end date.
+   * 
+   * @param end initial end date
+   */
+  public void setEnd(LocalDateTime end) {
+    getTimelineOptions().end = end;
+    updateTimelineOptions();
+  }
 
   /**
    * Sets whether items will be stack on top of each other if they overlap. By default item will not
