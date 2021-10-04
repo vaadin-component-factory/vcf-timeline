@@ -126,6 +126,7 @@ public class Timeline extends Div {
   public void setTimelineRange(LocalDateTime min, LocalDateTime max) {
     getTimelineOptions().min = min;
     getTimelineOptions().max = max;
+    updateTimelineOptions();
   }
 
   /**
@@ -135,6 +136,7 @@ public class Timeline extends Div {
    */
   public void setAxisOrientation(AxisOrientation axisOrientation) {
     getTimelineOptions().axisOrientation = axisOrientation.getName();
+    updateTimelineOptions();
   }
 
   /**
@@ -145,6 +147,7 @@ public class Timeline extends Div {
    */
   public void setZoomable(boolean zoomable) {
     getTimelineOptions().zoomable = zoomable;
+    updateTimelineOptions();
   }
 
   /**
@@ -154,6 +157,7 @@ public class Timeline extends Div {
    */
   public void setMoveable(boolean moveable) {
     getTimelineOptions().moveable = moveable;
+    updateTimelineOptions();
   }
 
   /**
@@ -165,6 +169,7 @@ public class Timeline extends Div {
   public void setZoomRange(Long zoomMin, Long zoomMax) {
     getTimelineOptions().zoomMin = zoomMin;
     getTimelineOptions().zoomMax = zoomMax;
+    updateTimelineOptions();
   }
 
   /**
@@ -174,6 +179,7 @@ public class Timeline extends Div {
    */
   public void setSelectable(boolean selectable) {
     getTimelineOptions().selectable = selectable;
+    updateTimelineOptions();
   }
 
   /**
@@ -184,6 +190,7 @@ public class Timeline extends Div {
    */
   public void setShowCurentTime(boolean showCurrentTime) {
     getTimelineOptions().showCurrentTime = showCurrentTime;
+    updateTimelineOptions();
   }
 
   /**
@@ -194,12 +201,14 @@ public class Timeline extends Div {
   @Override
   public void setHeight(String height) {
     getTimelineOptions().height = height;
+    updateTimelineOptions();
   }
 
   /** Sets the maximum height for the timeline. */
   @Override
   public void setMaxHeight(String maxHeight) {
     getTimelineOptions().maxHeight = maxHeight;
+    updateTimelineOptions();
   }
 
   /**
@@ -210,6 +219,7 @@ public class Timeline extends Div {
    */
   public void setStart(LocalDateTime start) {
     getTimelineOptions().start = start;
+    updateTimelineOptions();
   }
 
   /**
@@ -220,6 +230,7 @@ public class Timeline extends Div {
    */
   public void setStack(boolean stack) {
     getTimelineOptions().stack = stack;
+    updateTimelineOptions();
   }
 
   /**
@@ -230,6 +241,7 @@ public class Timeline extends Div {
    */
   public void setMultiselect(boolean multiselect) {
     getTimelineOptions().multiselect = multiselect;
+    updateTimelineOptions();
   }
 
   /**
@@ -240,6 +252,7 @@ public class Timeline extends Div {
    */
   public void setShowTooltips(boolean showTooltips) {
     getTimelineOptions().showTooltips = showTooltips;
+    updateTimelineOptions();
   }
  
   /**
@@ -268,6 +281,7 @@ public class Timeline extends Div {
    */
   public void setSnapStep(SnapStep snapStep) {
     getTimelineOptions().snapStep = snapStep.getMinutes();
+    updateTimelineOptions();
   }
 
   /**
@@ -277,8 +291,18 @@ public class Timeline extends Div {
    */
   public void setZoomOption(Integer zoomOption) {
     this.getElement().executeJs("vcftimeline.setZoomOption($0, $1)", this, zoomOption);
+    updateTimelineOptions();
   }
 
+  /**
+   * Updates timeline options after timeline creation.
+   */
+  private void updateTimelineOptions() {
+    if(this.getElement().getNode().isAttached()) {
+      this.getElement().executeJs("vcftimeline.setOptions($0, $1)", this, getTimelineOptions().toJSON());
+    }
+  }
+  
   @ClientCallable
   public void onMove(String itemId, String itemNewStart, String itemNewEnd) {
     LocalDateTime newStart = TimelineUtil.convertLocalDateTime(itemNewStart);
