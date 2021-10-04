@@ -214,6 +214,8 @@ public class Timeline extends Div {
   /**
    * Sets the initial start date for the axis of the timeline. If it's not provided, the earliest
    * date present in the events is taken as start date.
+   * 
+   * If autoZoom is true, this option will be override.
    *
    * @param start initial start date
    */
@@ -223,8 +225,22 @@ public class Timeline extends Div {
   }
   
   /**
+   * Sets whether all range should be visible at once. 
+   * Only works if a range was defined by calling {@link #setTimelineRange}.
+   * It will set start and end for timeline axis. 
+   * 
+   * @param autoZoom true if autozoom is allowed
+   */
+  public void setAutoZoom(boolean autoZoom) {
+    getTimelineOptions().autoZoom = autoZoom;
+    updateTimelineOptions();
+  }
+  
+  /**
    * The initial end date for the axis of the timeline. If not provided, the latest date present 
    * in the items set is taken as end date.
+   * 
+   * If autoZoom is true, this option will be override.
    * 
    * @param end initial end date
    */
@@ -253,8 +269,8 @@ public class Timeline extends Div {
   public void setMultiselect(boolean multiselect) {
     getTimelineOptions().multiselect = multiselect;
     updateTimelineOptions();
-  }
-
+  }  
+  
   /**
    * Sets whether tooltips will be displaying for items with defined titles. By default, tooltips
    * will be visibles.
