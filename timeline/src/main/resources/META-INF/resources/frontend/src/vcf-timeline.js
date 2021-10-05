@@ -40,8 +40,8 @@ window.vcftimeline = {
 	  container.timeline = line_timeline;
 
 	  container.timeline._timeline.on("changed", () => {
-            this._updateConnections(container);
-        }); 
+		this._updateConnections(container);
+	  }); 
   	},
 
 	_processOptions: function(container, optionsJson){
@@ -55,14 +55,26 @@ window.vcftimeline = {
 
 	  var defaultOptions = {
 		onMove: function(item, callback) {
-			callback(item); 
-						
-			var startDate = window.vcftimeline._convertDate(item.start);
-			var endDate = window.vcftimeline._convertDate(item.end);
+			var oldItem = container.timeline._timeline.itemSet.itemsData.get(item.id);
+			var isResizedItem = oldItem.start.getTime() != item.start.getTime() || oldItem.end.getTime() != item.end.getTime();
+			var moveItem = true;
 
-			window.vcftimeline._updateConnections(container);
+			if(isResizedItem && (item.start.getTime() >= item.end.getTime() || item.end.getTime() <= item.start.getTime())){
+				moveItem = false;
+			}
 
-			container.$server.onMove(item.id, startDate, endDate);
+			if(moveItem) {
+				callback(item); 							
+				var startDate = window.vcftimeline._convertDate(item.start);
+				var endDate = window.vcftimeline._convertDate(item.end);
+				//update connections
+				window.vcftimeline._updateConnections(container);
+				//call server
+				container.$server.onMove(item.id, startDate, endDate);
+			} else {
+				// undo resize 
+				callback(null);
+			}
 		},
 
 		onMoving: function(item, callback) {
