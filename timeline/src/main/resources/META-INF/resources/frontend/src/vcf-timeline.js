@@ -42,6 +42,10 @@ window.vcftimeline = {
 	  container.timeline._timeline.on("changed", () => {
 		this._updateConnections(container);
 	  }); 
+
+	  container.timeline._timeline.on('select', (properties) => {
+		container.$server.onSelect(properties.items);
+	  });
   	},
 
 	_processOptions: function(container, optionsJson){
@@ -70,7 +74,7 @@ window.vcftimeline = {
 				//update connections
 				window.vcftimeline._updateConnections(container);
 				//call server
-				container.$server.onMove(item.id, startDate, endDate);
+				container.$server.onMove(item.id, startDate, endDate, isResizedItem);
 			} else {
 				// undo resize 
 				callback(null);

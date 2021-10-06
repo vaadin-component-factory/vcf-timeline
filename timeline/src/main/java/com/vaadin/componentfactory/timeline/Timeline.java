@@ -1,5 +1,7 @@
 package com.vaadin.componentfactory.timeline;
 
+import com.vaadin.componentfactory.timeline.event.ItemsDragAndDropEvent;
+
 /*-
  * #%L
  * Timeline
@@ -33,10 +35,13 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.internal.Pair;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -55,6 +60,10 @@ public class Timeline extends Div {
 
   private TimelineOptions timelineOptions = new TimelineOptions();
 
+  private List<String> selectedItemsIdsList = new ArrayList<>();
+  
+  private Map<String, Pair<LocalDateTime, LocalDateTime>> movedItemsMap = new HashMap<>();
+  
   public Timeline() {
     setId("visualization" + this.hashCode());
     setWidthFull();
@@ -73,6 +82,8 @@ public class Timeline extends Div {
   @Override
   protected void onAttach(AttachEvent attachEvent) {
     super.onAttach(attachEvent);
+    selectedItemsIdsList = new ArrayList<>();
+    movedItemsMap = new HashMap<>();
     initTimeline();
   }
 
@@ -330,11 +341,24 @@ public class Timeline extends Div {
     }
   }
   
+  /**
+   * Call from client when an item is moved (dragged and dropped or resized).
+   * 
+   * @param itemId id of the moved item
+   * @param itemNewStart new start date of the moved item
+   * @param itemNewEnd new end date of the moved item
+   * @param resizedItem true if item was resized 
+   */
   @ClientCallable
-  public void onMove(String itemId, String itemNewStart, String itemNewEnd) {
+  public void onMove(String itemId, String itemNewStart, String itemNewEnd, boolean resizedItem) {
     LocalDateTime newStart = TimelineUtil.convertLocalDateTime(itemNewStart);
     LocalDateTime newEnd = TimelineUtil.convertLocalDateTime(itemNewEnd);
-    fireItemMoveEvent(itemId, newStart, newEnd, true);
+    
+    if(resizedItem) {
+      fireItemMoveEvent(itemId, newStart, newEnd, true);
+    } else {
+      handleDragAndDrop(itemId, newStart, newEnd, true);
+    }    
   }
 
   /**
@@ -349,31 +373,78 @@ public class Timeline extends Div {
       String itemId, LocalDateTime newStart, LocalDateTime newEnd, boolean fromClient) {
     ItemMoveEvent event = new ItemMoveEvent(this, itemId, newStart, newEnd, fromClient);
     fireEvent(event);
+    
     if (event.isCancelled()) {
       // if update is cancelled revert item resizing
-      Item item =
-          items.stream()
-              .filter(i -> itemId.equals(String.valueOf(i.getId())))
-              .findFirst()
-              .orElse(null);
-      if (item != null) {
-        this.getElement()
-            .executeJs("vcftimeline.revertMove($0, $1, $2)", this, itemId, item.toJSON());
-      }
+      revertMove(itemId);
     } else {
       // update item in list
-      items.stream()
-          .filter(i -> itemId.equals(String.valueOf(i.getId())))
-          .findFirst()
-          .ifPresent(
-              item -> {
-                item.setStart(newStart);
-                item.setEnd(newEnd);
-              });
+      updateItemRange(itemId, newStart, newEnd);
+    }      
+  }
+  
+  /**
+   * Handle item moved by drag and drop.
+   * 
+   * @param itemId id of the item that was moved
+   * @param newStart new start date for the item
+   * @param newEnd new end date for the item
+   * @param fromClient if event comes from client
+   */
+  protected void handleDragAndDrop(String itemId, LocalDateTime newStart, LocalDateTime newEnd, boolean fromClient) {
+    // save current moved item - itemId 
+    movedItemsMap.put(itemId, new Pair<>(newStart, newEnd));
+    
+    // if all selected items have been processed
+    if(selectedItemsIdsList.size() == movedItemsMap.size()){
+      List<Item> updatedItems = items.stream().filter(item -> movedItemsMap.keySet().contains(String.valueOf(item.getId()))).collect(Collectors.toList());
+      ItemsDragAndDropEvent event = new ItemsDragAndDropEvent(this, updatedItems, fromClient);
+      fireEvent(event);
+      if(event.isCancelled()) {
+        revertMovedItemsRange();
+      } else {
+        updateMovedItemsRange();
+      }
+      movedItemsMap.clear();
+    }
+  }  
+  
+  private void revertMovedItemsRange() {
+    for(String itemId: movedItemsMap.keySet()) {
+      revertMove(itemId);
+    }    
+  }
+  
+  private void revertMove(String itemId) {
+    Item item =
+        items.stream()
+            .filter(i -> itemId.equals(String.valueOf(i.getId())))
+            .findFirst()
+            .orElse(null);
+    if (item != null) {
+      this.getElement()
+          .executeJs("vcftimeline.revertMove($0, $1, $2)", this, itemId, item.toJSON());
     }
   }
+  
+  private void updateMovedItemsRange() {
+    for(String itemId: movedItemsMap.keySet()) {
+      updateItemRange(itemId, movedItemsMap.get(itemId).getFirst(), movedItemsMap.get(itemId).getSecond());
+    }        
+  }
+  
+  private void updateItemRange(String itemId, LocalDateTime newStart, LocalDateTime newEnd) {
+    items.stream()
+    .filter(i -> itemId.equals(String.valueOf(i.getId())))
+    .findFirst()
+    .ifPresent(
+        item -> {
+          item.setStart(newStart);
+          item.setEnd(newEnd);
+        });
+  }
 
-  /** Event thrown when an item is moved (dragged or resized). */
+  /** Event thrown when an item is resized. */
   public static class ItemMoveEvent extends ComponentEvent<Timeline> {
 
     private final String itemId;
@@ -426,7 +497,7 @@ public class Timeline extends Div {
   public void addItemMoveListener(ComponentEventListener<ItemMoveEvent> listener) {
     addListener(ItemMoveEvent.class, listener);
   }
-
+    
   /**
    * Removes an item.
    *
@@ -485,5 +556,25 @@ public class Timeline extends Div {
    */
   public void addItemRemoveListener(ComponentEventListener<ItemRemoveEvent> listener) {
     addListener(ItemRemoveEvent.class, listener);
+  }
+  
+  /**
+   * Call from client when items are selected.
+   * 
+   * @param selectedItemsIds list of selected items
+   */
+  @ClientCallable
+  public void onSelect(String selectedItemsIds) {
+    selectedItemsIdsList.clear();   
+    selectedItemsIdsList.addAll(Arrays.asList(selectedItemsIds.split(",")));
+  }
+   
+  /**
+   * Adds a listener for {@link ItemsDragAndDropEvent} to the component.
+   * 
+   * @param listener the listener to be added
+   */
+  public void addItemsDragAndDropListener(ComponentEventListener<ItemsDragAndDropEvent> listener) {
+    addListener(ItemsDragAndDropEvent.class, listener);
   }
 }
