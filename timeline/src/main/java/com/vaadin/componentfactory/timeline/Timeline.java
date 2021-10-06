@@ -1,5 +1,7 @@
 package com.vaadin.componentfactory.timeline;
 
+import com.vaadin.componentfactory.timeline.event.ItemRemoveEvent;
+import com.vaadin.componentfactory.timeline.event.ItemResizeEvent;
 import com.vaadin.componentfactory.timeline.event.ItemsDragAndDropEvent;
 
 /*-
@@ -29,7 +31,6 @@ import com.vaadin.componentfactory.timeline.model.TimelineOptions;
 import com.vaadin.componentfactory.timeline.util.TimelineUtil;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.ClientCallable;
-import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -444,51 +445,6 @@ public class Timeline extends Div {
         });
   }
 
-  /** Event thrown when an item is resized. */
-  public static class ItemResizeEvent extends ComponentEvent<Timeline> {
-
-    private final String itemId;
-    private final LocalDateTime newStart;
-    private final LocalDateTime newEnd;
-    private boolean cancelled = false;
-
-    public ItemResizeEvent(
-        Timeline source,
-        String itemId,
-        LocalDateTime newStart,
-        LocalDateTime newEnd,
-        boolean fromClient) {
-      super(source, fromClient);
-      this.itemId = itemId;
-      this.newStart = newStart;
-      this.newEnd = newEnd;
-    }
-
-    public String getItemId() {
-      return itemId;
-    }
-
-    public LocalDateTime getNewStart() {
-      return newStart;
-    }
-
-    public LocalDateTime getNewEnd() {
-      return newEnd;
-    }
-
-    public boolean isCancelled() {
-      return cancelled;
-    }
-
-    public void setCancelled(boolean cancelled) {
-      this.cancelled = cancelled;
-    }
-
-    public Timeline getTimeline() {
-      return (Timeline) source;
-    }
-  }
-
   /**
    * Adds a listener for {@link ItemResizeEvent} to the component.
    *
@@ -528,25 +484,6 @@ public class Timeline extends Div {
     // update items list
     items.removeIf(item -> itemId.equals(String.valueOf(item.getId())));
     fireEvent(event);
-  }
-
-  /** Event thrown when an item is removed from the timeline. */
-  public static class ItemRemoveEvent extends ComponentEvent<Timeline> {
-
-    private final String itemId;
-
-    public ItemRemoveEvent(Timeline source, String itemId, boolean fromClient) {
-      super(source, fromClient);
-      this.itemId = itemId;
-    }
-
-    public String getItemId() {
-      return itemId;
-    }
-
-    public Timeline getTimeline() {
-      return (Timeline) source;
-    }
   }
 
   /**
