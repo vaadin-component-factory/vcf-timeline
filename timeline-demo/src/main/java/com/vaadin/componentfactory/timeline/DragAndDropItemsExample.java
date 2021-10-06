@@ -74,9 +74,10 @@ public class DragAndDropItemsExample extends Div {
             if(e.getItems().size() == 1) {
               log.add(
                   new Span("Moving item " + e.getItems().get(0).getContent() + " is not allowed. Moving reverted."));
+            } else {
+              log.add(
+                  new Span("Moving items " + e.getItems().stream().map(Item::getContent).collect(Collectors.joining(",")) + " is not allowed. Moving reverted."));
             }
-            log.add(
-                new Span("Moving items " + e.getItems().stream().map(Item::getContent).collect(Collectors.joining(",")) + " is not allowed. Moving reverted."));
           } else {
             
             for(Item item: e.getItems()) {
