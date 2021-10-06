@@ -355,23 +355,23 @@ public class Timeline extends Div {
     LocalDateTime newEnd = TimelineUtil.convertLocalDateTime(itemNewEnd);
     
     if(resizedItem) {
-      fireItemMoveEvent(itemId, newStart, newEnd, true);
+      fireItemResizeEvent(itemId, newStart, newEnd, true);
     } else {
       handleDragAndDrop(itemId, newStart, newEnd, true);
     }    
   }
 
   /**
-   * Fires a {@link ItemMoveEvent}.
+   * Fires a {@link ItemResizeEvent}.
    *
    * @param itemId id of the item that was moved
    * @param newStart new start date for the item
    * @param newEnd new end date for the item
    * @param fromClient if event comes from client
    */
-  protected void fireItemMoveEvent(
+  protected void fireItemResizeEvent(
       String itemId, LocalDateTime newStart, LocalDateTime newEnd, boolean fromClient) {
-    ItemMoveEvent event = new ItemMoveEvent(this, itemId, newStart, newEnd, fromClient);
+    ItemResizeEvent event = new ItemResizeEvent(this, itemId, newStart, newEnd, fromClient);
     fireEvent(event);
     
     if (event.isCancelled()) {
@@ -445,14 +445,14 @@ public class Timeline extends Div {
   }
 
   /** Event thrown when an item is resized. */
-  public static class ItemMoveEvent extends ComponentEvent<Timeline> {
+  public static class ItemResizeEvent extends ComponentEvent<Timeline> {
 
     private final String itemId;
     private final LocalDateTime newStart;
     private final LocalDateTime newEnd;
     private boolean cancelled = false;
 
-    public ItemMoveEvent(
+    public ItemResizeEvent(
         Timeline source,
         String itemId,
         LocalDateTime newStart,
@@ -490,12 +490,12 @@ public class Timeline extends Div {
   }
 
   /**
-   * Adds a listener for {@link ItemMoveEvent} to the component.
+   * Adds a listener for {@link ItemResizeEvent} to the component.
    *
    * @param listener the listener to be added
    */
-  public void addItemMoveListener(ComponentEventListener<ItemMoveEvent> listener) {
-    addListener(ItemMoveEvent.class, listener);
+  public void addItemResizeListener(ComponentEventListener<ItemResizeEvent> listener) {
+    addListener(ItemResizeEvent.class, listener);
   }
     
   /**

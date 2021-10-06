@@ -22,7 +22,7 @@ public class ResizeItemsExample extends Div {
             LocalDateTime.of(2021, 8, 11, 7, 00, 00),
             "Readonly");
     item1.setId(1);
-    item1.setEditable(false); // Lock an activity so it can’t be edited
+    item1.setEditable(false); // Lock an activity so it can't be edited
 
     Item item2 =
         new Item(
@@ -52,7 +52,7 @@ public class ResizeItemsExample extends Div {
         LocalDateTime.of(2021, 8, 10, 00, 00, 00), LocalDateTime.of(2021, 8, 25, 00, 00, 00));
 
     // add listener to get new resized item range values
-    timeline.addItemMoveListener(
+    timeline.addItemResizeListener(
         e ->
             log.add(
                 new Span(
