@@ -1,9 +1,3 @@
-package com.vaadin.componentfactory.timeline;
-
-import com.vaadin.componentfactory.timeline.event.ItemRemoveEvent;
-import com.vaadin.componentfactory.timeline.event.ItemResizeEvent;
-import com.vaadin.componentfactory.timeline.event.ItemsDragAndDropEvent;
-
 /*-
  * #%L
  * Timeline
@@ -24,6 +18,11 @@ import com.vaadin.componentfactory.timeline.event.ItemsDragAndDropEvent;
  * #L%
  */
 
+package com.vaadin.componentfactory.timeline;
+
+import com.vaadin.componentfactory.timeline.event.ItemRemoveEvent;
+import com.vaadin.componentfactory.timeline.event.ItemResizeEvent;
+import com.vaadin.componentfactory.timeline.event.ItemsDragAndDropEvent;
 import com.vaadin.componentfactory.timeline.model.AxisOrientation;
 import com.vaadin.componentfactory.timeline.model.Item;
 import com.vaadin.componentfactory.timeline.model.SnapStep;
