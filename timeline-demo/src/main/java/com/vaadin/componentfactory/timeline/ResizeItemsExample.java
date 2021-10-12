@@ -7,6 +7,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
 
 @Route(value = "resize-items", layout = MainLayout.class)
 public class ResizeItemsExample extends Div {
@@ -42,7 +44,7 @@ public class ResizeItemsExample extends Div {
     item3.setEditable(true);
     item3.setUpdateTime(true);
 
-    Item[] items = new Item[] {item1, item2, item3};
+    List<Item> items = Arrays.asList(item1, item2, item3);
 
     // empty timeline creation
     Timeline timeline = new Timeline(items);

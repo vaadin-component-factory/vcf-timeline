@@ -4,6 +4,8 @@ import com.vaadin.componentfactory.timeline.model.Item;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.Route;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 @Route(value = "readonly", layout = MainLayout.class)
 public class ReadonlyExample extends Div {
@@ -45,12 +47,10 @@ public class ReadonlyExample extends Div {
             "Item 5");
     item5.setId(5);
 
-    Item[] items = new Item[] {item1, item2, item3, item4, item5};
+    List<Item> items = Arrays.asList(item1, item2, item3, item4, item5);
 
     // make items readonly
-    for (int i = 0; i < items.length; i++) {
-      items[i].setEditable(false);
-    }
+    items.forEach(i -> i.setEditable(false));
 
     // timeline creation
     Timeline timeline = new Timeline(items);

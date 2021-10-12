@@ -4,6 +4,8 @@ import com.vaadin.componentfactory.timeline.model.Item;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.Route;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 @Route(value = "tooltips-items", layout = MainLayout.class)
 public class ItemsWithTooltipsExample extends Div {
@@ -36,7 +38,7 @@ public class ItemsWithTooltipsExample extends Div {
             "No tooltip");
     item3.setId(3);
 
-    Item[] items = new Item[] {item1, item2, item3};
+    List<Item> items = Arrays.asList(item1, item2, item3);
 
     // empty timeline creation
     Timeline timeline = new Timeline(items);

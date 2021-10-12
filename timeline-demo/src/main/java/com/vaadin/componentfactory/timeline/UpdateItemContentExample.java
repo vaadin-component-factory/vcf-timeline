@@ -11,6 +11,8 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 @Route(value = "update-item-content", layout = MainLayout.class)
@@ -54,7 +56,7 @@ public class UpdateItemContentExample extends Div {
             "Item 5");
     item5.setId(5);
 
-    Item[] items = new Item[] {item1, item2, item3, item4, item5};
+    List<Item> items = Arrays.asList(item1, item2, item3, item4, item5);
 
     // timeline creation
     Timeline timeline = new Timeline(items);

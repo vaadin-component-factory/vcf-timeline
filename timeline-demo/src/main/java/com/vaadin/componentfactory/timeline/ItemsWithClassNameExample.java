@@ -5,6 +5,8 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.Route;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 @CssImport(value = "./styles/timeline-items-style.css")
 @Route(value = "classname-items", layout = MainLayout.class)
@@ -36,7 +38,7 @@ public class ItemsWithClassNameExample extends Div {
     item3.setId(3);
     item3.setClassName("orange");
 
-    Item[] items = new Item[] {item1, item2, item3};
+    List<Item> items = Arrays.asList(item1, item2, item3);
 
     // empty timeline creation
     Timeline timeline = new Timeline(items);

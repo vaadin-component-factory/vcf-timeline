@@ -70,9 +70,9 @@ public class Timeline extends Div {
     setClassName("timeline");
   }
 
-  public Timeline(Item... items) {
+  public Timeline(List<Item> items) {
     this();
-    this.items = new ArrayList<Item>(Arrays.asList(items));
+    this.items = new ArrayList<>(items);
   }
 
   protected TimelineOptions getTimelineOptions() {
@@ -112,11 +112,10 @@ public class Timeline extends Div {
     this.items.add(item);
   }
 
-  public void setItems(Item... items) {
-    List<Item> itemsList = this.items = Arrays.asList(items);
+  public void setItems(List<Item> items) {
+    this.items = new ArrayList<>(items);
     this.getElement()
         .executeJs("vcftimeline.setItems($0, $1)", this, "[" + convertItemsToJson() + "]");
-    this.items = itemsList;
   }
 
   /**

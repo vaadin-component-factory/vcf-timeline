@@ -7,6 +7,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,7 +55,7 @@ public class DragAndDropItemsExample extends Div {
     item4.setEditable(true);
     item4.setUpdateTime(true);
 
-    Item[] items = new Item[] {item1, item2, item3, item4};
+    List<Item> items = Arrays.asList(item1, item2, item3, item4);
 
     // empty timeline creation
     Timeline timeline = new Timeline(items);
