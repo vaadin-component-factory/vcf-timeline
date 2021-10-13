@@ -56,6 +56,7 @@
         
         this._dependency = [];
         this._dependencyPath = [];
+        this._minItemHeight = null;
         this._initialize();
     }
   
@@ -66,7 +67,7 @@
         this._svg.style.height = "100%";
         this._svg.style.width = "100%";
         this._svg.style.display = "block";
-        this._svg.style.zIndex = "1"; // Should it be above or below? (1 for above, -1 for below)
+        this._svg.style.zIndex = "-1"; // Should it be above or below? (1 for above, -1 for below)
         this._svg.style.pointerEvents = "none"; // To click through, if we decide to put it above other elements.
         this._timeline.dom.center.appendChild(this._svg);
     }
@@ -145,6 +146,7 @@
     //Función que recibe in Item y devuelve la posición en pantalla del item.
     _getItemPos (item) {
         let left_x = item.left;
+
         let top_y = item.parent.top + item.parent.height - item.top - item.height;
         return {
             left: left_x,
@@ -152,9 +154,9 @@
             right: left_x + item.width,
             bottom: top_y + item.height,
             mid_x: left_x + item.width / 2,
-            mid_y: top_y + item.height / 2,
+            mid_y: item.top + this._minItemHeight / 2,
             width: item.width,
-            height: item.height
+            height: item.height,
         }
     }
 
@@ -204,6 +206,7 @@
         this._svg.replaceChildren("");
         this.dependencies = [];
         this._dependencyPath = [];
+        this._minItemHeight = null;
     }
 
     setDependencies(dependencies) {
@@ -218,7 +221,20 @@
             this._createPath();
         }
 
+        this._minItemHeight = this._getMinItemHeight();
+
         this._drawDependencies();
+    }
+
+    _getMinItemHeight(){
+        var minHeight = Number.MAX_VALUE;
+        this._timeline.itemsData.forEach(item => {
+        let height = this._timeline.itemSet.items[item.id].height;    
+            if(height < minHeight){
+                minHeight = height;
+            }
+        });
+        return minHeight;
     }
 
   }
