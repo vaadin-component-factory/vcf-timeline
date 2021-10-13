@@ -35,3 +35,10 @@
   font-size: 24pt;
   font-weight: bold;
 }
+
+.vis-item.readonly {
+  background-color: #a9eda9;
+  pointer-events: none;
+  z-index: 1 !important;
+  height: 50px;
+} 
