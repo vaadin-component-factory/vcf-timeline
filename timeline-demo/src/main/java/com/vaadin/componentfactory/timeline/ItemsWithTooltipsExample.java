@@ -18,7 +18,7 @@ public class ItemsWithTooltipsExample extends Div {
             LocalDateTime.of(2021, 8, 11, 2, 30, 00),
             LocalDateTime.of(2021, 8, 11, 7, 00, 00),
             "Item 1");
-    item1.setId(1);
+    item1.setId("Item 1");
     item1.setTitle("Tooltip for Item 1");
     item1.setEditable(true);
     item1.setUpdateTime(true);
@@ -28,7 +28,7 @@ public class ItemsWithTooltipsExample extends Div {
             LocalDateTime.of(2021, 8, 12, 0, 00, 00),
             LocalDateTime.of(2021, 8, 12, 12, 00, 00),
             "Item 2");
-    item2.setId(2);
+    item2.setId("Item 2");
     item2.setTitle("<b>Tooltip for Item 2</b>");
 
     Item item3 =
@@ -36,7 +36,7 @@ public class ItemsWithTooltipsExample extends Div {
             LocalDateTime.of(2021, 8, 13, 2, 30, 00),
             LocalDateTime.of(2021, 8, 14, 1, 00, 00),
             "No tooltip");
-    item3.setId(3);
+    item3.setId("Item 3");
 
     List<Item> items = Arrays.asList(item1, item2, item3);
 

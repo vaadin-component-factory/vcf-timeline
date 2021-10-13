@@ -298,7 +298,7 @@ public class Timeline extends Div {
    * @param itemId id of item to be updated
    * @param newContent new item content
    */
-  public void updateItemContent(Integer itemId, String newContent) {
+  public void updateItemContent(String itemId, String newContent) {
     this.getElement()
         .executeJs("vcftimeline.updateItemContent($0, $1, $2)", this, itemId, newContent);
     items.stream()
@@ -396,7 +396,7 @@ public class Timeline extends Div {
     
     // if all selected items have been processed
     if(selectedItemsIdsList.size() == movedItemsMap.size()){
-      List<Item> updatedItems = items.stream().filter(item -> movedItemsMap.keySet().contains(String.valueOf(item.getId()))).collect(Collectors.toList());
+      List<Item> updatedItems = items.stream().filter(item -> movedItemsMap.keySet().contains(item.getId())).collect(Collectors.toList());
       ItemsDragAndDropEvent event = new ItemsDragAndDropEvent(this, updatedItems, fromClient);
       fireEvent(event);
       if(event.isCancelled()) {
@@ -417,7 +417,7 @@ public class Timeline extends Div {
   private void revertMove(String itemId) {
     Item item =
         items.stream()
-            .filter(i -> itemId.equals(String.valueOf(i.getId())))
+            .filter(i -> itemId.equals(i.getId()))
             .findFirst()
             .orElse(null);
     if (item != null) {
@@ -434,7 +434,7 @@ public class Timeline extends Div {
   
   private void updateItemRange(String itemId, LocalDateTime newStart, LocalDateTime newEnd) {
     items.stream()
-    .filter(i -> itemId.equals(String.valueOf(i.getId())))
+    .filter(i -> itemId.equals(i.getId()))
     .findFirst()
     .ifPresent(
         item -> {
@@ -480,7 +480,7 @@ public class Timeline extends Div {
   public void fireItemRemoveEvent(String itemId, boolean fromClient) {
     ItemRemoveEvent event = new ItemRemoveEvent(this, itemId, fromClient);
     // update items list
-    items.removeIf(item -> itemId.equals(String.valueOf(item.getId())));
+    items.removeIf(item -> itemId.equals(item.getId()));
     fireEvent(event);
   }
 

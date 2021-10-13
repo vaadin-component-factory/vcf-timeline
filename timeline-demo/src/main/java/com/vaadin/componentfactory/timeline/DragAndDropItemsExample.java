@@ -24,7 +24,7 @@ public class DragAndDropItemsExample extends Div {
             LocalDateTime.of(2021, 8, 11, 2, 30, 00),
             LocalDateTime.of(2021, 8, 11, 7, 00, 00),
             "Item 1");
-    item1.setId(1);
+    item1.setId("1");
     item1.setEditable(true);
     item1.setUpdateTime(true);
 
@@ -33,7 +33,7 @@ public class DragAndDropItemsExample extends Div {
             LocalDateTime.of(2021, 8, 13, 0, 00, 00),
             LocalDateTime.of(2021, 8, 13, 12, 00, 00),
             "Item 2");
-    item2.setId(2);
+    item2.setId("2");
     item2.setEditable(true);
     item2.setUpdateTime(true);
 
@@ -42,7 +42,7 @@ public class DragAndDropItemsExample extends Div {
             LocalDateTime.of(2021, 8, 14, 2, 30, 00),
             LocalDateTime.of(2021, 8, 15, 1, 00, 00),
             "Item 3");
-    item3.setId(3);
+    item3.setId("3");
     item3.setEditable(true);
     item3.setUpdateTime(true);
     
@@ -51,7 +51,7 @@ public class DragAndDropItemsExample extends Div {
             LocalDateTime.of(2021, 8, 16, 1, 30, 00),
             LocalDateTime.of(2021, 8, 17, 1, 00, 00),
             "Item 4");
-    item4.setId(4);
+    item4.setId("4");
     item4.setEditable(true);
     item4.setUpdateTime(true);
 
