@@ -19,7 +19,7 @@ public class ItemsWithClassNameExample extends Div {
             LocalDateTime.of(2021, 8, 11, 2, 30, 00),
             LocalDateTime.of(2021, 8, 11, 7, 00, 00),
             "red");
-    item1.setId(1);
+    item1.setId("1");
     item1.setClassName("red");
 
     Item item2 =
@@ -27,7 +27,7 @@ public class ItemsWithClassNameExample extends Div {
             LocalDateTime.of(2021, 8, 11, 8, 00, 00),
             LocalDateTime.of(2021, 8, 12, 1, 00, 00),
             "green");
-    item2.setId(2);
+    item2.setId("2");
     item2.setClassName("green");
 
     Item item3 =
@@ -35,7 +35,7 @@ public class ItemsWithClassNameExample extends Div {
             LocalDateTime.of(2021, 8, 12, 3, 30, 00),
             LocalDateTime.of(2021, 8, 12, 8, 00, 00),
             "orange");
-    item3.setId(3);
+    item3.setId("3");
     item3.setClassName("orange");
 
     List<Item> items = Arrays.asList(item1, item2, item3);

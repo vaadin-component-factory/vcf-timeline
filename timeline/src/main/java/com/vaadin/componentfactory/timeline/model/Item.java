@@ -29,7 +29,7 @@ import java.util.Optional;
 /** Representation of a timeline item. */
 public class Item {
 
-  private Integer id;
+  private String id;
 
   private LocalDateTime start;
 
@@ -60,11 +60,11 @@ public class Item {
     this.setContent(content);
   }
 
-  public Integer getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(String id) {
     this.id = id;
   }
 
