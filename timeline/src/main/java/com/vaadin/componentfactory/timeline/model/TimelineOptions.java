@@ -106,6 +106,7 @@ public class TimelineOptions {
     Optional.ofNullable(max).ifPresent(v -> js.put("max", v.toString()));
     JsonObject orientationJs = Json.createObject();
     orientationJs.put("axis", axisOrientation);
+    orientationJs.put("item", "top");
     js.put("orientation", orientationJs);
 
     js.put("zoomMin", zoomMin);
