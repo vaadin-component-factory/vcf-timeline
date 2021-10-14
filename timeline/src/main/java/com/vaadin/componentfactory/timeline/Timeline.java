@@ -370,12 +370,23 @@ public class Timeline extends Div {
    */
   protected void fireItemResizeEvent(
       String itemId, LocalDateTime newStart, LocalDateTime newEnd, boolean fromClient) {
-    ItemResizeEvent event = new ItemResizeEvent(this, itemId, newStart, newEnd, fromClient);
-    fireEvent(event);
+    ItemResizeEvent event = new ItemResizeEvent(this, itemId, newStart, newEnd, fromClient);    
+    RuntimeException exception = null;
+    
+    try {
+      fireEvent(event);
+    } catch (RuntimeException e) {
+      exception = e;
+      event.setCancelled(true);
+    }    
     
     if (event.isCancelled()) {
-      // if update is cancelled revert item resizing
+      // if update is cancelled, revert item resizing
       revertMove(itemId);
+      // if exception was catch, re-throw exception
+      if(exception != null) {
+        throw exception;
+      }
     } else {
       // update item in list
       updateItemRange(itemId, newStart, newEnd);
@@ -390,21 +401,36 @@ public class Timeline extends Div {
    * @param newEnd new end date for the item
    * @param fromClient if event comes from client
    */
-  protected void handleDragAndDrop(String itemId, LocalDateTime newStart, LocalDateTime newEnd, boolean fromClient) {
+  protected void handleDragAndDrop(String itemId, LocalDateTime newStart, LocalDateTime newEnd, boolean fromClient)  {
     // save current moved item - itemId 
     movedItemsMap.put(itemId, new Pair<>(newStart, newEnd));
     
     // if all selected items have been processed
     if(selectedItemsIdsList.size() == movedItemsMap.size()){
       List<Item> updatedItems = items.stream().filter(item -> movedItemsMap.keySet().contains(item.getId())).collect(Collectors.toList());
-      ItemsDragAndDropEvent event = new ItemsDragAndDropEvent(this, updatedItems, fromClient);
-      fireEvent(event);
+      ItemsDragAndDropEvent event = new ItemsDragAndDropEvent(this, updatedItems, fromClient);      
+      RuntimeException exception = null;
+      
+      try {
+        fireEvent(event);
+      } catch (RuntimeException e) {
+        exception = e;
+        event.setCancelled(true);
+      }    
+      
       if(event.isCancelled()) {
+        // if move is cancelled, revert move for all dragged items
         revertMovedItemsRange();
+        movedItemsMap.clear();
+        // if exception was catch, re-throw the exception for error handling
+        if(exception != null) {
+          throw exception;
+        }
       } else {
+        // update items list
         updateMovedItemsRange();
-      }
-      movedItemsMap.clear();
+        movedItemsMap.clear();
+      }      
     }
   }  
   
