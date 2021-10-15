@@ -407,8 +407,7 @@ public class Timeline extends Div {
     
     // if all selected items have been processed
     if(selectedItemsIdsList.size() == movedItemsMap.size()){
-      List<Item> updatedItems = items.stream().filter(item -> movedItemsMap.keySet().contains(item.getId())).collect(Collectors.toList());
-      ItemsDragAndDropEvent event = new ItemsDragAndDropEvent(this, updatedItems, fromClient);      
+      ItemsDragAndDropEvent event = new ItemsDragAndDropEvent(this, getUpdatedItems(), fromClient);      
       RuntimeException exception = null;
       
       try {
@@ -433,6 +432,18 @@ public class Timeline extends Div {
       }      
     }
   }  
+  
+  private List<Item> getUpdatedItems() {
+    List<Item> updatedItems = items.stream()
+        .filter(item -> movedItemsMap.keySet().contains(item.getId())).collect(Collectors.toList());
+    
+    updatedItems.forEach(item -> {
+      item.setStart(movedItemsMap.get(item.getId()).getFirst());
+      item.setEnd(movedItemsMap.get(item.getId()).getSecond());
+    });
+    
+    return updatedItems;
+  }
   
   private void revertMovedItemsRange() {
     for(String itemId: movedItemsMap.keySet()) {
