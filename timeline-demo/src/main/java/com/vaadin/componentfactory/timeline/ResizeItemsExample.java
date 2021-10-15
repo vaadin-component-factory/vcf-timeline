@@ -69,6 +69,6 @@ public class ResizeItemsExample extends Div {
   }
 
   private String formatDates(LocalDateTime date) {
-    return date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss"));
+    return date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
   }
 }
