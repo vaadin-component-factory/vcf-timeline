@@ -84,19 +84,20 @@ window.vcftimeline = {
 		onMoving: function(item, callback) {
 			var range = container.timeline._timeline.getWindow();
 			if(item.start <= range.start) {
-				var diff = (range.start.valueOf() - item.start.getTime()) * 5;
-				container.timeline._timeline.setWindow({
-					start: range.start.valueOf() - diff,
-					end: range.end.valueOf() - diff,
-				});
+				var diff = (range.start.valueOf() - item.start.getTime());
+				container.timeline._timeline.setWindow(
+					new Date(range.start.valueOf() - diff),
+					new Date(range.end.valueOf() - diff),
+					{animation: false}
+				);
 			} else if(item.end >= range.end) {
-				var diff = (item.end.getTime() - range.end.valueOf()) * 5;
-				container.timeline._timeline.setWindow({
-					start: range.start.valueOf() + diff,
-					end: range.end.valueOf() + diff,
-				});
-			}
-						
+				var diff = (item.end.getTime() - range.end.valueOf());
+				container.timeline._timeline.setWindow(
+					new Date(range.start.valueOf() + diff),
+					new Date(range.end.valueOf() + diff),
+					{animation: false}
+				);
+			}						
 			callback(item);
 		},
 
@@ -104,7 +105,6 @@ window.vcftimeline = {
 			var hour = snapStep * 60 * 1000;
 			return Math.round(date / hour) * hour;
 		},
-
 	  };
 
 	  var options = {};
