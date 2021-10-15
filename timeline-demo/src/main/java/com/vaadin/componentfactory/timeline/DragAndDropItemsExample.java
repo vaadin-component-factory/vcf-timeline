@@ -100,10 +100,10 @@ public class DragAndDropItemsExample extends Div {
   }
 
   private boolean cancelMove(List<Item> items) {
-    return items.stream().anyMatch(i -> i.getStart().getHour() == 2 && i.getStart().getMinute() == 30);
+    return items.stream().anyMatch(i -> i.getId().equals("1") || i.getId().equals("3"));
   }
   
   private String formatDates(LocalDateTime date) {
-    return date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss"));
+    return date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
   }
 }
