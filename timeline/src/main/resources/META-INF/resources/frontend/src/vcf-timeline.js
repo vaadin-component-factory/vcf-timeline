@@ -41,6 +41,7 @@ window.vcftimeline = {
 
 	  container.timeline._timeline.on("changed", () => {
 		this._updateConnections(container);
+		this._updateTimelineHeight(container);
 	  }); 
 
 	  container.timeline._timeline.on('select', (properties) => {
@@ -232,6 +233,15 @@ window.vcftimeline = {
 	_updateConnections: function(container) {
 		var connections = this._createConnections(container.timeline._timeline.itemsData.get());
 		container.timeline.setDependencies(connections);
+	},
+
+	_updateTimelineHeight: function(container) {
+		if(container.timelineHeight == undefined){
+			container.timelineHeight = container.timeline._timeline.dom.container.getBoundingClientRect().height;
+		}
+		if(container.timeline._timeline.options.height == undefined){
+			container.timeline._timeline.options.height = container.timelineHeight;
+		}
 	}
 }
 
