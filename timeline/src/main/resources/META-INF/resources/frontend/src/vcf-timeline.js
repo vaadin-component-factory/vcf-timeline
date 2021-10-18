@@ -46,6 +46,36 @@ window.vcftimeline = {
 	  container.timeline._timeline.on('select', (properties) => {
 		container.$server.onSelect(properties.items);
 	  });
+
+	  setInterval(function(){
+		var isDragging = container.timeline._timeline.itemSet.touchParams.itemIsDragging;
+		if (isDragging) {
+			var ix = container.timeline._timeline.itemSet.touchParams.itemProps[0].initialX; 
+			var item = container.timeline._timeline.itemSet.touchParams.selectedItem;
+			var range = container.timeline._timeline.getWindow();
+			var widthInPixels = container.timeline._timeline.body.domProps.lastWidth;
+			var widthInMilliseconds = range.end.valueOf() - range.start.valueOf();
+			if(item.data.start <= range.start) {
+				container.timeline._timeline.setWindow(
+					new Date(range.start.valueOf() - (widthInMilliseconds / 50)),
+					new Date(range.end.valueOf() - (widthInMilliseconds / 50)),
+					{animation: false}
+				);
+				container.timeline._timeline.itemSet.touchParams.itemProps[0].initialX = ix + (widthInPixels / 50);
+				item.data.start = new Date(item.data.start.valueOf() - (widthInMilliseconds / 50));
+				item.data.end = new Date(item.data.end.valueOf() - (widthInMilliseconds / 50));
+			} else if(item.data.end >= range.end) {
+				container.timeline._timeline.setWindow(
+					new Date(range.start.valueOf() + (widthInMilliseconds / 50)),
+					new Date(range.end.valueOf() + (widthInMilliseconds / 50)),
+					{animation: false}
+				);
+				container.timeline._timeline.itemSet.touchParams.itemProps[0].initialX = ix - (widthInPixels / 50);
+				item.data.start = new Date(item.data.start.valueOf() + (widthInMilliseconds / 50));
+				item.data.end = new Date(item.data.end.valueOf() + (widthInMilliseconds / 50));
+			}
+		}
+	  }, 100);
   	},
 
 	_processOptions: function(container, optionsJson){
@@ -81,25 +111,7 @@ window.vcftimeline = {
 			}
 		},
 
-		onMoving: function(item, callback) {
-			var range = container.timeline._timeline.getWindow();
-			if(item.start <= range.start) {
-				var diff = (range.start.valueOf() - item.start.getTime());
-				container.timeline._timeline.setWindow(
-					new Date(range.start.valueOf() - diff),
-					new Date(range.end.valueOf() - diff),
-					{animation: false}
-				);
-			} else if(item.end >= range.end) {
-				var diff = (item.end.getTime() - range.end.valueOf());
-				container.timeline._timeline.setWindow(
-					new Date(range.start.valueOf() + diff),
-					new Date(range.end.valueOf() + diff),
-					{animation: false}
-				);
-			}						
-			callback(item);
-		},
+		
 
 		snap: function (date, scale, step) {
 			var hour = snapStep * 60 * 1000;
