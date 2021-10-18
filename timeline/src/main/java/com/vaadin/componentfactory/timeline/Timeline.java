@@ -64,6 +64,8 @@ public class Timeline extends Div {
   
   private Map<String, Pair<LocalDateTime, LocalDateTime>> movedItemsMap = new HashMap<>();
   
+  private Map<String, Pair<LocalDateTime, LocalDateTime>> movedItemsOldValuesMap = new HashMap<>();
+  
   public Timeline() {
     setId("visualization" + this.hashCode());
     setWidthFull();
@@ -84,6 +86,7 @@ public class Timeline extends Div {
     super.onAttach(attachEvent);
     selectedItemsIdsList = new ArrayList<>();
     movedItemsMap = new HashMap<>();
+    movedItemsOldValuesMap = new HashMap<>();
     initTimeline();
   }
 
@@ -402,12 +405,19 @@ public class Timeline extends Div {
    * @param fromClient if event comes from client
    */
   protected void handleDragAndDrop(String itemId, LocalDateTime newStart, LocalDateTime newEnd, boolean fromClient)  {
-    // save current moved item - itemId 
+    // save current moved item - itemId - new start and new end
     movedItemsMap.put(itemId, new Pair<>(newStart, newEnd));
+    // save original start and end for the moved item
+    Item movedItem = items.stream().filter(i -> itemId.equals(i.getId())).findFirst().get();
+    movedItemsOldValuesMap.put(itemId, new Pair<>(movedItem.getStart(), movedItem.getEnd()));
     
     // if all selected items have been processed
     if(selectedItemsIdsList.size() == movedItemsMap.size()){
-      ItemsDragAndDropEvent event = new ItemsDragAndDropEvent(this, getUpdatedItems(), fromClient);      
+      // update items with new start and end range values
+      updateMovedItemsRange();
+      List<Item> updatedItems = items.stream()
+          .filter(item -> movedItemsMap.keySet().contains(item.getId())).collect(Collectors.toList());
+      ItemsDragAndDropEvent event = new ItemsDragAndDropEvent(this, updatedItems, fromClient);      
       RuntimeException exception = null;
       
       try {
@@ -421,34 +431,30 @@ public class Timeline extends Div {
         // if move is cancelled, revert move for all dragged items
         revertMovedItemsRange();
         movedItemsMap.clear();
+        movedItemsOldValuesMap.clear();
         // if exception was catch, re-throw the exception for error handling
         if(exception != null) {
           throw exception;
         }
       } else {
-        // update items list
-        updateMovedItemsRange();
+        // if move not cancelled, keep updated values
         movedItemsMap.clear();
+        movedItemsOldValuesMap.clear();
       }      
     }
   }  
   
-  private List<Item> getUpdatedItems() {
-    List<Item> updatedItems = items.stream()
-        .filter(item -> movedItemsMap.keySet().contains(item.getId())).collect(Collectors.toList());
-    
-    updatedItems.forEach(item -> {
-      item.setStart(movedItemsMap.get(item.getId()).getFirst());
-      item.setEnd(movedItemsMap.get(item.getId()).getSecond());
-    });
-    
-    return updatedItems;
-  }
-  
   private void revertMovedItemsRange() {
-    for(String itemId: movedItemsMap.keySet()) {
+    for (String itemId : movedItemsOldValuesMap.keySet()) {
+      items.stream().filter(i -> itemId.equals(i.getId())).findFirst().ifPresent(item -> {
+        item.setStart(movedItemsOldValuesMap.get(itemId).getFirst());
+        item.setEnd(movedItemsOldValuesMap.get(itemId).getSecond());
+      });
+    }
+    
+    for (String itemId : movedItemsOldValuesMap.keySet()) {
       revertMove(itemId);
-    }    
+    }
   }
   
   private void revertMove(String itemId) {
