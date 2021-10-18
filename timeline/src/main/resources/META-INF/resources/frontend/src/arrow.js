@@ -100,18 +100,8 @@
         } else {
             var bothItemsExist = false;
         }
-        
-        //Checks if at least one item is visible in screen
-        var oneItemVisible = false; //Iniciamos a false
-        if (bothItemsExist) {    
-            var visibleItems = this._timeline.getVisibleItems();
-            for (let k = 0; k < visibleItems.length ; k++) {
-                if (dep.id_item_1 == visibleItems[k]) oneItemVisible = true;
-                if (dep.id_item_2 == visibleItems[k]) oneItemVisible = true;
-            }        
-        }
 
-        if ((oneItemVisible) && (bothItemsExist)) {
+        if (bothItemsExist) {
             var item_1 = this._getItemPos(this._timeline.itemSet.items[dep.id_item_1]);
             var item_2 = this._getItemPos(this._timeline.itemSet.items[dep.id_item_2]);
             // As demo, we put an arrow between item 0 and item1, from the one that is more on left to the one more on right.
