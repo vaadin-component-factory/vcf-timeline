@@ -99,6 +99,12 @@ public class TimelineOptions {
   public Integer snapStep = SnapStep.QUARTER.getMinutes();
   
   public boolean autoZoom = false;
+  
+  public boolean tooltipOnItemUpdateTime = false;
+  
+  public String tooltipOnItemUpdateTimeDateFormat;
+  
+  public String tooltipOnItemUpdateTimeTemplate;
 
   public String toJSON() {
     JsonObject js = Json.createObject();
@@ -127,6 +133,10 @@ public class TimelineOptions {
     js.put("showTooltips", showTooltips);
     js.put("snapStep", snapStep);
     js.put("autoZoom", autoZoom);
+    
+    js.put("tooltipOnItemUpdateTime", tooltipOnItemUpdateTime);
+    Optional.ofNullable(tooltipOnItemUpdateTimeDateFormat).ifPresent(v -> js.put("tooltipOnItemUpdateTimeDateFormat", v.toString()));
+    Optional.ofNullable(tooltipOnItemUpdateTimeTemplate).ifPresent(v -> js.put("tooltipOnItemUpdateTimeTemplate", v.toString()));
 
     return js.toJson();
   }
