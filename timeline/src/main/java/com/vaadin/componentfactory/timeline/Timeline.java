@@ -50,6 +50,7 @@ import java.util.stream.Collectors;
  */
 @SuppressWarnings("serial")
 @NpmPackage(value = "vis-timeline", version = "7.4.9")
+@NpmPackage(value = "moment", version = "2.29.1")
 @JsModule("./src/arrow.js")
 @JsModule("./src/vcf-timeline.js")
 @CssImport("vis-timeline/styles/vis-timeline-graph2d.min.css")
@@ -555,4 +556,41 @@ public class Timeline extends Div {
   public void addItemsDragAndDropListener(ComponentEventListener<ItemsDragAndDropEvent> listener) {
     addListener(ItemsDragAndDropEvent.class, listener);
   }
+  
+  /**
+   * Sets whether tooltip should be displayed while updating an item.
+   * 
+   * @param tooltip true if tooltip is allowed
+   */
+  public void setTooltipOnItemUpdateTime(boolean tooltip) {
+    getTimelineOptions().tooltipOnItemUpdateTime = tooltip;
+    updateTimelineOptions();
+  }
+  
+  /**
+   * Sets the date format for the dates displayed in the 
+   * on update item tooltip.
+   * 
+   * @param dateFormat format for tooltip dates
+   */
+  public void setTooltipOnItemUpdateTimeDateFormat(String dateFormat) {
+    getTimelineOptions().tooltipOnItemUpdateTimeDateFormat = dateFormat;
+    updateTimelineOptions();
+  }
+  
+  /**
+   * Sets the template for the tooltip displayed on item update.
+   * <p>To reference item start and end dates, please use item.start 
+   * and item.end to be able to parse the template in the
+   * client-side. 
+   * <p>
+   * E.g.: Starting at item.start, ending at item.end.
+   * 
+   * @param template the template shown in the tooltip
+   */
+  public void setTooltipOnItemUpdateTimeTemplate(String template) {
+    getTimelineOptions().tooltipOnItemUpdateTimeTemplate = template;
+    updateTimelineOptions();
+  }
+
 }

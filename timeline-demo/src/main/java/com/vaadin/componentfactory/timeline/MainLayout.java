@@ -26,10 +26,12 @@ public class MainLayout extends AppLayout {
         new RouterLink("Update item content", UpdateItemContentExample.class);
     final RouterLink zoomOptionsExample = new RouterLink("Zoom options", ZoomOptionsExample.class);
     final RouterLink overlappExample = new RouterLink("Overlapping example", OverlappedItemsExample.class);
+    final RouterLink tooltipOnUpdateExample = 
+        new RouterLink("Tooltip on item update ", TooltipOnUpdateExample.class);
 
     final VerticalLayout menuLayout = new VerticalLayout(readonlyEmptyExample, addEmptyItemsExample,
         resizeItems, dndItems, tooltipsExample, classNameExample, readonlyExample,
-        updateItemContentExample, zoomOptionsExample, overlappExample);
+        updateItemContentExample, zoomOptionsExample, overlappExample, tooltipOnUpdateExample);
     addToDrawer(menuLayout);
     addToNavbar(drawerToggle);
   }

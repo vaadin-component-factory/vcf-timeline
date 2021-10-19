@@ -5,3 +5,17 @@
 .timeline .vis-item.vis-selected {
     z-index: 3;
 }
+
+.timeline .vis-timeline {
+	overflow-y: visible;
+    overflow-x: clip;
+}
+
+.timeline .vis-center {
+	overflow-y: visible;
+    overflow-x: clip;
+}
+
+.timeline .vis-item .vis-onUpdateTime-tooltip{
+	width: auto;
+}

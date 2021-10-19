@@ -18,6 +18,7 @@
  * #L%
  */
 import Arrow from './arrow.js';
+import moment from 'moment';
 
 window.vis = require("vis-timeline/standalone/umd/vis-timeline-graph2d.min.js")
 
@@ -88,6 +89,13 @@ window.vcftimeline = {
 	  var autoZoom = parsedOptions.autoZoom;
 	  delete parsedOptions.autoZoom;
 
+	  var tooltipOnItemUpdateTime = parsedOptions.tooltipOnItemUpdateTime;
+	  var tooltipDateFormat = parsedOptions.tooltipOnItemUpdateTimeDateFormat;
+	  var tooltipTemplate = parsedOptions.tooltipOnItemUpdateTimeTemplate;
+	  delete parsedOptions.tooltipOnItemUpdateTime;
+	  delete parsedOptions.tooltipOnItemUpdateTimeDateFormat;
+	  delete parsedOptions.tooltipOnItemUpdateTimeTemplate;	 			
+
 	  var defaultOptions = {
 		onMove: function(item, callback) {
 			var oldItem = container.timeline._timeline.itemSet.itemsData.get(item.id);
@@ -112,8 +120,6 @@ window.vcftimeline = {
 			}
 		},
 
-		
-
 		snap: function (date, scale, step) {
 			var hour = snapStep * 60 * 1000;
 			return Math.round(date / hour) * hour;
@@ -126,6 +132,30 @@ window.vcftimeline = {
 	  if(autoZoom && options.min && options.max){
 		  options.start = options.min;
 		  options.end = options.max;
+	  }
+
+	  if(tooltipOnItemUpdateTime){
+		options.editable = {updateTime: true}, 
+		options.tooltipOnItemUpdateTime = {
+			template: function(item) {
+		      var startDate = moment(item.start).format('MM/DD/YYYY HH:mm');
+			  var endDate = moment(item.end).format('MM/DD/YYYY HH:mm')
+			  	
+			  if(tooltipDateFormat){
+				startDate = moment(item.start).format(tooltipDateFormat);
+				endDate = moment(item.end).format(tooltipDateFormat);
+			  }
+			  if(tooltipTemplate){
+				  var templateCopy = tooltipTemplate;
+				  templateCopy = templateCopy.replace("item.start", startDate);
+				  templateCopy = templateCopy.replace("item.end", endDate);	
+				  return templateCopy;
+			  } else {
+				return "Start: " + startDate
+				+ "</br> End: " + endDate;	
+			  }
+			}
+		  }
 	  }
 
 	  return options;
