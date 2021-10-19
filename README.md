@@ -1,6 +1,6 @@
 # Timeline component for Vaadin Flow
 
-Timeline component uses [vis-timeline](https://visjs.github.io/vis-timeline/docs/timeline/) component to display data in time.
+Timeline component uses [vis-timeline](https://visjs.github.io/vis-timeline/docs/timeline/) library to display data in time.
 
 This component is part of Vaadin Component Factory.
 
@@ -16,8 +16,11 @@ Timeline component provides support to the following features:
 - Edit an item by drag and drop.
 - Multiple items selection.
 - Possiblity to define zoom options (e.g. 1 day, 3 days, 5 days).
-- Items are shown connected by an horizontal lines between them. (*)
+- Items are shown connected by an horizontal line between them. (*)
 - Show tooltips for items.
+- Possibility to revert resizing or dragging if condition is not met.
+- Autoscrolling when reaching limits of visible range.
+- Tooltip on item update.
 
 (*) Horizontal lines implementation is based on [timeline-arrows](https://github.com/javdome/timeline-arrows).
 
@@ -45,6 +48,8 @@ Timeline timeline = new Timeline(items);
 ```
 
 ## Examples
+
+See examples on [timeline-demo](https://github.com/vaadin-component-factory/vcf-timeline/tree/master/timeline-demo/src/main/java/com/vaadin/componentfactory/timeline).
 
 ## Missing features or bugs
 
