@@ -26,17 +26,14 @@ Timeline component provides support to the following features:
 
 ## Development instructions
 
-Build the project and install the add-on locally:
+- Build the project and install the add-on locally:
 ```
 mvn clean install
 ```
-Starting the demo server:
-
-Go to timeline-demo and run:
+- For starting the demo server go to timeline-demo and run:
 ```
 mvn jetty:run
 ```
-
 This deploys demo at http://localhost:8080
 
 ## How to use it
@@ -53,4 +50,4 @@ See examples on [timeline-demo](https://github.com/vaadin-component-factory/vcf-
 
 ## Missing features or bugs
 
-You can report any issue or missing feature on github: https://github.com/vaadin-component-factory/timeline
+You can report any issue or missing feature on [GitHub](https://github.com/vaadin-component-factory/vcf-timeline/issues).
