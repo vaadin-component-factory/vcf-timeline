@@ -57,7 +57,7 @@ window.vcftimeline = {
 			var range = container.timeline._timeline.getWindow();
 			var widthInPixels = container.timeline._timeline.body.domProps.lastWidth;
 			var widthInMilliseconds = range.end.valueOf() - range.start.valueOf();
-			if(item.data.start <= range.start && range.start > new Date(options.min)) {
+			if(item.data.start <= range.start && (options.min == undefined || range.start > new Date(options.min))) {
 				container.timeline._timeline.setWindow(
 					new Date(range.start.valueOf() - (widthInMilliseconds / 50)),
 					new Date(range.end.valueOf() - (widthInMilliseconds / 50)),
@@ -66,7 +66,7 @@ window.vcftimeline = {
 				container.timeline._timeline.itemSet.touchParams.itemProps[0].initialX = ix + (widthInPixels / 50);
 				item.data.start = new Date(item.data.start.valueOf() - (widthInMilliseconds / 50));
 				item.data.end = new Date(item.data.end.valueOf() - (widthInMilliseconds / 50));
-			} else if(item.data.end >= range.end && range.end < new Date(options.max)) {
+			} else if(item.data.end >= range.end && (options.max == undefined || range.end < new Date(options.max))) {
 				container.timeline._timeline.setWindow(
 					new Date(range.start.valueOf() + (widthInMilliseconds / 50)),
 					new Date(range.end.valueOf() + (widthInMilliseconds / 50)),
