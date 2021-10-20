@@ -70,72 +70,60 @@ window.vcftimeline = {
 
 			// handle autoscrolling when moving, not resizing
 			if(mouseAtLeftOfCenter && item.data.start <= range.start && (options.min == undefined || range.start > new Date(options.min)) && !isResizing) {
-				container.timeline._timeline.setWindow(
-					new Date(range.start.valueOf() - (widthInMilliseconds / 50)),
-					new Date(range.end.valueOf() - (widthInMilliseconds / 50)),
-					{animation: false}
-				);
-				container.timeline._timeline.itemSet.touchParams.itemProps[0].initialX = ix + (widthInPixels / 50);
+				window.vcftimeline._moveWindowToRight(container, range, widthInMilliseconds, widthInPixels, ix);
 				item.data.start = new Date(item.data.start.valueOf() - (widthInMilliseconds / 50));
 				item.data.end = new Date(item.data.end.valueOf() - (widthInMilliseconds / 50));
 			} else if(!mouseAtLeftOfCenter && item.data.end >= range.end && (options.max == undefined || range.end < new Date(options.max)) && !isResizing) {
-				container.timeline._timeline.setWindow(
-					new Date(range.start.valueOf() + (widthInMilliseconds / 50)),
-					new Date(range.end.valueOf() + (widthInMilliseconds / 50)),
-					{animation: false}
-				);
-				container.timeline._timeline.itemSet.touchParams.itemProps[0].initialX = ix - (widthInPixels / 50);
+				window.vcftimeline._moveWindowToLeft(container, range, widthInMilliseconds, widthInPixels, ix);
 				item.data.start = new Date(item.data.start.valueOf() + (widthInMilliseconds / 50));
 				item.data.end = new Date(item.data.end.valueOf() + (widthInMilliseconds / 50));
 			}
 
 			// auto scroll to left when resizing left
 			if(item.data.start <= range.start && (options.min == undefined || range.start > new Date(options.min)) && isResizingLeft) {
-				container.timeline._timeline.setWindow(
-					new Date(range.start.valueOf() - (widthInMilliseconds / 50)),
-					new Date(range.end.valueOf() - (widthInMilliseconds / 50)),
-					{animation: false}
-				);
-				container.timeline._timeline.itemSet.touchParams.itemProps[0].initialX = ix + (widthInPixels / 50);
+				window.vcftimeline._moveWindowToRight(container, range, widthInMilliseconds, widthInPixels, ix);
 				item.data.start = new Date(item.data.start.valueOf() - (widthInMilliseconds / 50));
 			}
 
 			// auto scroll to right when resizing left
 			if(item.data.start >= range.end && (options.max == undefined || range.end < new Date(options.max)) && isResizingLeft) {
-				container.timeline._timeline.setWindow(
-					new Date(range.start.valueOf() + (widthInMilliseconds / 50)),
-					new Date(range.end.valueOf() + (widthInMilliseconds / 50)),
-					{animation: false}
-				);
-				container.timeline._timeline.itemSet.touchParams.itemProps[0].initialX = ix - (widthInPixels / 50);
+				window.vcftimeline._moveWindowToLeft(container, range, widthInMilliseconds, widthInPixels, ix);
 				item.data.start = new Date(item.data.start.valueOf() + (widthInMilliseconds / 50));
 			}
 
 			// auto scroll to right when resizing right
 			if(item.data.end >= range.end && (options.max == undefined || range.end < new Date(options.max)) && isResizingRight) {
-				container.timeline._timeline.setWindow(
-					new Date(range.start.valueOf() + (widthInMilliseconds / 50)),
-					new Date(range.end.valueOf() + (widthInMilliseconds / 50)),
-					{animation: false}
-				);
-				container.timeline._timeline.itemSet.touchParams.itemProps[0].initialX = ix - (widthInPixels / 50);
+				window.vcftimeline._moveWindowToLeft(container, range, widthInMilliseconds, widthInPixels, ix);
 				item.data.end = new Date(item.data.end.valueOf() + (widthInMilliseconds / 50));
 			}
 
 			// auto scroll to left when resizing right
 			if(item.data.end <= range.start && (options.min == undefined || range.start > new Date(options.min)) && isResizingRight) {
-				container.timeline._timeline.setWindow(
-					new Date(range.start.valueOf() - (widthInMilliseconds / 50)),
-					new Date(range.end.valueOf() - (widthInMilliseconds / 50)),
-					{animation: false}
-				);
-				container.timeline._timeline.itemSet.touchParams.itemProps[0].initialX = ix + (widthInPixels / 50);
+				window.vcftimeline._moveWindowToRight(container, range, widthInMilliseconds, widthInPixels, ix);
 				item.data.end = new Date(item.data.end.valueOf() - (widthInMilliseconds / 50));
 			}
 
 		}
 	  }, 100);
   	},
+
+	_moveWindowToRight(container, range, widthInMilliseconds, widthInPixels, ix) {
+		container.timeline._timeline.setWindow(
+			new Date(range.start.valueOf() - (widthInMilliseconds / 50)),
+			new Date(range.end.valueOf() - (widthInMilliseconds / 50)),
+			{animation: false}
+		);
+		container.timeline._timeline.itemSet.touchParams.itemProps[0].initialX = ix + (widthInPixels / 50);
+	},
+
+	_moveWindowToLeft(container, range, widthInMilliseconds, widthInPixels, ix) {
+		container.timeline._timeline.setWindow(
+			new Date(range.start.valueOf() + (widthInMilliseconds / 50)),
+			new Date(range.end.valueOf() + (widthInMilliseconds / 50)),
+			{animation: false}
+		);
+		container.timeline._timeline.itemSet.touchParams.itemProps[0].initialX = ix - (widthInPixels / 50);
+	},
 
 	_processOptions: function(container, optionsJson){
 	  var parsedOptions = JSON.parse(optionsJson);
