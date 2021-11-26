@@ -6,7 +6,7 @@
 
     <groupId>org.vaadin.addons.componentfactory</groupId>
     <artifactId>vcf-timeline-demo</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <name>Timeline Demo</name>
     <packaging>war</packaging>
@@ -106,7 +106,7 @@
        <dependency>
            <groupId>org.vaadin.addons.componentfactory</groupId>
            <artifactId>vcf-timeline</artifactId>
-           <version>1.0.0-SNAPSHOT</version>
+           <version>${project.version}</version>
        </dependency>
 
         <dependency>
