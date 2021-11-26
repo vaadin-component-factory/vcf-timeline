@@ -6,8 +6,8 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>timeline</module>
-        <module>timeline-demo</module>
+        <module>vcf-timeline</module>
+        <module>vcf-timeline-demo</module>
     </modules>
     <name>timeline</name>
     <description>timeline component based on vis-timeline library</description>

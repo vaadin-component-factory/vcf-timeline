@@ -9,8 +9,8 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Timeline</name>
-    <description>Timeline component</description>
+    <name>Timeline for Flow</name>
+    <description>Timeline component for Flow</description>
 
     <inceptionYear>2021</inceptionYear>
     <organization>
