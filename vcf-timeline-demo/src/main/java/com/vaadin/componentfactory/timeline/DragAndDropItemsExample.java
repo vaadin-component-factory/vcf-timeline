@@ -62,7 +62,7 @@ public class DragAndDropItemsExample extends Div {
 
     // setting timeline range
     timeline.setTimelineRange(
-        LocalDateTime.of(2021, 8, 10, 00, 00, 00), LocalDateTime.of(2021, 8, 25, 00, 00, 00));
+        LocalDateTime.of(2021, 8, 1, 00, 00, 00), LocalDateTime.of(2021, 8, 25, 00, 00, 00));
 
     // set multiselet so multiple items can be drag at once
     timeline.setMultiselect(true);
