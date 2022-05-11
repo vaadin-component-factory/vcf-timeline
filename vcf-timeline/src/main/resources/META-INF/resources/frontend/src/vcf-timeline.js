@@ -227,6 +227,10 @@ window.vcftimeline = {
 	    var parsedItem = JSON.parse(itemJson);
 		itemData.start = parsedItem.start;
 		itemData.end = parsedItem.end;
+
+		let calculatedLeft = container.timeline._timeline.itemSet.items[itemId].conversion.toScreen(vis.moment(itemData.start));
+   		container.timeline._timeline.itemSet.items[itemId].left = calculatedLeft;
+
 		container.timeline._timeline.itemsData.update(itemData);
 	},
 	
