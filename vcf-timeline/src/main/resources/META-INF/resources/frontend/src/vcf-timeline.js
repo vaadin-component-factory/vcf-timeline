@@ -25,6 +25,10 @@ window.vis = require("vis-timeline/standalone/umd/vis-timeline-graph2d.min.js")
 window.vcftimeline = {
 
 	create: function(container, itemsJson, optionsJson) {
+        setTimeout(() => this._createTimeline(container, itemsJson, optionsJson));
+    },
+
+	_createTimeline: function(container, itemsJson, optionsJson) {
 	  // parsed items 	  
 	  var parsedItems = JSON.parse(itemsJson);
 
