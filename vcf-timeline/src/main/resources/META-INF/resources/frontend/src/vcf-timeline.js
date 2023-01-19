@@ -20,7 +20,7 @@
 import Arrow from './arrow.js';
 import moment from 'moment';
 
-window.vis = require("vis-timeline/standalone/umd/vis-timeline-graph2d.min.js")
+import { DataSet, Timeline } from 'vis-timeline/standalone/umd/vis-timeline-graph2d.min.js';
 
 window.vcftimeline = {
 
@@ -33,13 +33,13 @@ window.vcftimeline = {
 	  var parsedItems = JSON.parse(itemsJson);
 
 	  // Create a DataSet
-	  var items = new vis.DataSet(parsedItems);	
+	  var items = new DataSet(parsedItems);	
 		 
 	  // Get options for timeline configuration	
 	  var options = this._processOptions(container, optionsJson);
 
 	  // Create Timeline	
-	  var timeline = new vis.Timeline(container, items, options);
+	  var timeline = new Timeline(container, items, options);
       		
       const line_timeline = new Arrow(timeline);
 	  container.timeline = line_timeline;
@@ -256,7 +256,7 @@ window.vcftimeline = {
 	},
 
 	setItems: function(container, itemsJson) {
-		var items = new vis.DataSet(JSON.parse(itemsJson));
+		var items = new DataSet(JSON.parse(itemsJson));
 		container.timeline._timeline.setItems(items);
 		container.timeline._timeline.fit();
 	},
@@ -267,7 +267,7 @@ window.vcftimeline = {
 		itemData.start = parsedItem.start;
 		itemData.end = parsedItem.end;
 
-		let calculatedLeft = container.timeline._timeline.itemSet.items[itemId].conversion.toScreen(vis.moment(itemData.start));
+		let calculatedLeft = container.timeline._timeline.itemSet.items[itemId].conversion.toScreen(moment(itemData.start));
    		container.timeline._timeline.itemSet.items[itemId].left = calculatedLeft;
 
 		container.timeline._timeline.itemsData.update(itemData);
@@ -295,12 +295,12 @@ window.vcftimeline = {
 			startDate = range.start;
 		}
 
-		var start = vis.moment(startDate);
+		var start = moment(startDate);
 		start.hour(0);
 		start.minutes(0);
 		start.seconds(0);
 
-		var end = vis.moment(startDate);
+		var end = moment(startDate);
 		end.add(zoomDays, 'days');
 		
 		container.timeline._timeline.setWindow({
