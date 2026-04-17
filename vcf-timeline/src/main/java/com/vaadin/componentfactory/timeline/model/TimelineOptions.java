@@ -21,8 +21,9 @@ package com.vaadin.componentfactory.timeline.model;
  */
 
 import com.vaadin.componentfactory.timeline.Timeline;
-import elemental.json.Json;
-import elemental.json.JsonObject;
+import tools.jackson.databind.node.JsonNodeFactory;
+import tools.jackson.databind.node.ObjectNode;
+
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -107,13 +108,13 @@ public class TimelineOptions {
   public String tooltipOnItemUpdateTimeTemplate;
 
   public String toJSON() {
-    JsonObject js = Json.createObject();
+    ObjectNode js = JsonNodeFactory.instance.objectNode();
     Optional.ofNullable(min).ifPresent(v -> js.put("min", v.toString()));
     Optional.ofNullable(max).ifPresent(v -> js.put("max", v.toString()));
-    JsonObject orientationJs = Json.createObject();
+    ObjectNode orientationJs = JsonNodeFactory.instance.objectNode();
     orientationJs.put("axis", axisOrientation);
     orientationJs.put("item", "top");
-    js.put("orientation", orientationJs);
+    js.put("orientation", orientationJs.toString());
 
     js.put("zoomMin", zoomMin);
     js.put("zoomMax", zoomMax);
@@ -138,6 +139,6 @@ public class TimelineOptions {
     Optional.ofNullable(tooltipOnItemUpdateTimeDateFormat).ifPresent(v -> js.put("tooltipOnItemUpdateTimeDateFormat", v.toString()));
     Optional.ofNullable(tooltipOnItemUpdateTimeTemplate).ifPresent(v -> js.put("tooltipOnItemUpdateTimeTemplate", v.toString()));
 
-    return js.toJson();
+    return js.toString();
   }
 }

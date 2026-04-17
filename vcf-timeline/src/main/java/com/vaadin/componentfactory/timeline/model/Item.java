@@ -20,8 +20,9 @@ package com.vaadin.componentfactory.timeline.model;
  * #L%
  */
 
-import elemental.json.Json;
-import elemental.json.JsonObject;
+import tools.jackson.databind.node.JsonNodeFactory;
+import tools.jackson.databind.node.ObjectNode;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
@@ -147,7 +148,7 @@ public class Item {
   }
 
   public String toJSON() {
-    JsonObject js = Json.createObject();
+    ObjectNode js = JsonNodeFactory.instance.objectNode();
     Optional.ofNullable(getId()).ifPresent(v -> js.put("id", v));
     Optional.ofNullable(getContent()).ifPresent(v -> js.put("content", v));
     Optional.ofNullable(getStart()).ifPresent(v -> js.put("start", v.toString()));
@@ -157,10 +158,10 @@ public class Item {
         .ifPresent(
             v -> {
               if (v && (getUpdateTime() != null || getRemove() != null)) {
-                JsonObject optionsJs = Json.createObject();
+                ObjectNode optionsJs = JsonNodeFactory.instance.objectNode();
                 Optional.ofNullable(getUpdateTime()).ifPresent(u -> optionsJs.put("updateTime", u));
                 Optional.ofNullable(getRemove()).ifPresent(r -> optionsJs.put("remove", r));
-                js.put("editable", optionsJs);
+                js.put("editable", optionsJs.asString());
               } else {
                 js.put("editable", v);
               }
@@ -168,6 +169,6 @@ public class Item {
 
     Optional.ofNullable(getTitle()).ifPresent(v -> js.put("title", v));
     Optional.ofNullable(getClassName()).ifPresent(v -> js.put("className", v));
-    return js.toJson();
+    return js.toString();
   }
 }
