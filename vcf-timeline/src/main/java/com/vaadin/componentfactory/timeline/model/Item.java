@@ -161,7 +161,7 @@ public class Item {
                 ObjectNode optionsJs = JsonNodeFactory.instance.objectNode();
                 Optional.ofNullable(getUpdateTime()).ifPresent(u -> optionsJs.put("updateTime", u));
                 Optional.ofNullable(getRemove()).ifPresent(r -> optionsJs.put("remove", r));
-                js.put("editable", optionsJs.asString());
+                js.put("editable", optionsJs.toString());
               } else {
                 js.put("editable", v);
               }
