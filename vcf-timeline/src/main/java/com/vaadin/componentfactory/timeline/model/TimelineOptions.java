@@ -114,7 +114,7 @@ public class TimelineOptions {
     ObjectNode orientationJs = JsonNodeFactory.instance.objectNode();
     orientationJs.put("axis", axisOrientation);
     orientationJs.put("item", "top");
-    js.put("orientation", orientationJs.toString());
+    js.set("orientation", orientationJs);
 
     js.put("zoomMin", zoomMin);
     js.put("zoomMax", zoomMax);
