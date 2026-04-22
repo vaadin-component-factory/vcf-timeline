@@ -25,14 +25,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>
-
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.5</version>
-        <relativePath/>
-    </parent>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -76,10 +68,6 @@
         </pluginRepository>
     </pluginRepositories>
     <dependencies>
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-spring-boot-starter</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
             <!-- Replace artifactId with vaadin-core to use only free components -->
@@ -131,16 +119,10 @@
             <artifactId>slf4j-simple</artifactId>
         </dependency>
         
-        <dependency>
-          <groupId>javax.servlet</groupId>
-          <artifactId>javax.servlet-api</artifactId>
-          <version>3.1.0</version>
-     	</dependency>        
-        
     </dependencies>
 
     <build>
-        <defaultGoal>spring-boot:run</defaultGoal>
+
         <resources>
             <resource>
                 <directory>src/main/java</directory>
@@ -152,10 +134,18 @@
             </resource>
         </resources>
         <plugins>
+            <!-- Jetty plugin for easy testing without a server -->
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>11.0.24</version>
+                <configuration>
+                    <scanIntervalSeconds>-1</scanIntervalSeconds>
+                    <stopKey>${project.artifactId}</stopKey>
+                    <stopPort>8081</stopPort>
+                </configuration>
             </plugin>
+
             <plugin>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
