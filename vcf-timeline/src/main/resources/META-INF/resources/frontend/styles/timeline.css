@@ -7,13 +7,11 @@
 }
 
 .timeline .vis-timeline {
-	overflow-y: visible;
-    overflow-x: clip;
+    overflow: visible !important;
 }
 
 .timeline .vis-center {
-	overflow-y: visible;
-    overflow-x: clip;
+    overflow: visible !important;
 }
 
 .timeline .vis-item .vis-onUpdateTime-tooltip{
