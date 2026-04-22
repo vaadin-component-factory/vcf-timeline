@@ -543,9 +543,9 @@ public class Timeline extends Div {
    * @param selectedItemsIds list of selected items
    */
   @ClientCallable
-  public void onSelect(String selectedItemsIds) {
+  public void onSelect(String[] selectedItemsIds) {
     selectedItemsIdsList.clear();   
-    selectedItemsIdsList.addAll(Arrays.asList(selectedItemsIds.split(",")));
+    selectedItemsIdsList.addAll(Arrays.asList(selectedItemsIds));
   }
    
   /**
