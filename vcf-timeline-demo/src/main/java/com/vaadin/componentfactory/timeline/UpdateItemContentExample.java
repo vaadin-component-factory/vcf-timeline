@@ -13,7 +13,6 @@ import com.vaadin.flow.router.Route;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
 
 @Route(value = "update-item-content", layout = MainLayout.class)
 public class UpdateItemContentExample extends Div {
@@ -78,7 +77,7 @@ public class UpdateItemContentExample extends Div {
             e -> {
               Item item = itemsSelection.getValue();
               String content = itemNewContent.getValue();
-              if (item != null && StringUtils.isNotBlank(content)) {
+              if (item != null && content != null && !content.isBlank()) {
                 timeline.updateItemContent(item.getId(), content);
                 itemsSelection.clear();
                 itemNewContent.clear();
